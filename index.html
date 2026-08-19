@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Chicago SEO Company | SEO Services That Drive Growth</title>
+
+  <meta name="description" content="Chicago SEO Company helps businesses improve search visibility, attract qualified traffic, and generate more leads with strategic SEO services.">
+
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <link rel="canonical" href="https://your-site.netlify.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Chicago SEO Company | SEO Services That Drive Growth">
+  <meta property="og:description" content="Chicago SEO Company helps businesses improve search visibility, attract qualified traffic, and generate more leads with strategic SEO services.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-site.netlify.app/">
+  <meta property="og:site_name" content="Chicago SEO Company">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root {
+      --navy: #1c2d4a;
+      --navy-deep: #14213a;
+      --gold: #d9a441;
+      --gold-soft: #f0dcb0;
+      --ink: #1c1e22;
+      --ink-soft: #5a5f66;
+      --paper: #f7f6f2;
+      --white: #ffffff;
+      --line: #e4e1d8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      text-decoration: none;
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    .desktop-nav ul {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .desktop-nav a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .desktop-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: width .2s ease;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--navy);
+    }
+
+    .desktop-nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav-button {
+      background: var(--navy);
+      color: #fff !important;
+      padding: 10px 17px;
+      border-radius: 6px;
+    }
+
+    .nav-button:hover {
+      background: var(--navy-deep);
+    }
+
+    .nav-button::after {
+      display: none;
+    }
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      margin: 5px 0;
+      background: var(--navy);
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 290px;
+      max-width: 85%;
+      height: 100vh;
+      background: var(--navy-deep);
+      padding: 80px 28px;
+      z-index: 1100;
+      transition: right .3s ease;
+    }
+
+    .mobile-nav.active {
+      right: 0;
+    }
+
+    .mobile-nav ul {
+      list-style: none;
+    }
+
+    .mobile-nav li {
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
+    .mobile-nav a {
+      display: block;
+      padding: 15px 0;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.15rem;
+    }
+
+    .mobile-nav a:hover {
+      color: var(--gold);
+    }
+
+    .close-menu {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 1050;
+    }
+
+    .mobile-overlay.active {
+      display: block;
+    }
+
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      background: var(--navy-deep);
+      color: #fff;
+      padding: 100px 0 110px;
+    }
+
+    .hero-content {
+      max-width: 850px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+      border: 1px solid rgba(217,164,65,.5);
+      border-radius: 999px;
+      color: var(--gold);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(2.5rem, 6vw, 4.7rem);
+      line-height: 1.08;
+      font-weight: 600;
+      letter-spacing: -.025em;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      max-width: 720px;
+      color: rgba(255,255,255,.78);
+      font-size: 1.12rem;
+      margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 21px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 600;
+      transition: .2s ease;
+    }
+
+    .button-primary {
+      background: var(--gold);
+      color: var(--navy-deep);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(255,255,255,.25);
+      color: #fff;
+    }
+
+    .button-secondary:hover {
+      background: rgba(255,255,255,.08);
+    }
+
+
+    /* =========================
+       INTRO
+    ========================= */
+
+    .intro {
+      padding: 85px 0;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 45px;
+    }
+
+    .section-heading .label {
+      color: #8a6a1f;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-heading h2 {
+      font-family: 'Source Serif 4', serif;
+      color: var(--navy);
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-bottom: 15px;
+    }
+
+    .section-heading p {
+      color: var(--ink-soft);
+      font-size: 1rem;
+    }
+
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .services {
+      padding: 0 0 90px;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 30px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(28,45,74,.08);
+    }
+
+    .service-number {
+      color: var(--gold);
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .service-card h3 {
+      font-family: 'Source Serif 4', serif;
+      color: var(--navy);
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      color: var(--ink-soft);
+      font-size: .93rem;
+    }
+
+
+    /* =========================
+       WHY US
+    ========================= */
+
+    .why-us {
+      background: #fff;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 90px 0;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .why-content h2 {
+      font-family: 'Source Serif 4', serif;
+      color: var(--navy);
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .why-content p {
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+    }
+
+    .why-list {
+      list-style: none;
+    }
+
+    .why-list li {
+      display: flex;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .why-list li::before {
+      content: "✓";
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       PROCESS
+    ========================= */
+
+    .process {
+      padding: 90px 0;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .process-card {
+      border-top: 3px solid var(--gold);
+      background: #fff;
+      border-radius: 8px;
+      padding: 28px;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .process-card span {
+      color: var(--gold);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .process-card h3 {
+      font-family: 'Source Serif 4', serif;
+      color: var(--navy);
+      margin: 10px 0;
+      font-size: 1.3rem;
+    }
+
+    .process-card p {
+      color: var(--ink-soft);
+      font-size: .92rem;
+    }
+
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+      background: var(--navy);
+      color: #fff;
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .cta-content {
+      max-width: 720px;
+      margin: auto;
+    }
+
+    .cta h2 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 2.6rem;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .cta p {
+      color: rgba(255,255,255,.75);
+      margin-bottom: 28px;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: var(--navy-deep);
+      color: #fff;
+      padding: 35px 0;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      font-size: .88rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    footer p {
+      color: rgba(255,255,255,.55);
+      font-size: .85rem;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .service-grid,
+      .process-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .why-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+    }
+
+    @media (max-width: 768px) {
+
+      .desktop-nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .hero {
+        padding: 75px 0 80px;
+      }
+
+      .hero h1 {
+        font-size: 2.7rem;
+      }
+
+      .section-heading h2,
+      .why-content h2 {
+        font-size: 2rem;
+      }
+
+      .service-grid,
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .intro,
+      .process,
+      .why-us {
+        padding: 65px 0;
+      }
+
+      .cta {
+        padding: 65px 0;
+      }
+
+      .cta h2 {
+        font-size: 2.1rem;
+      }
+
+    }
+
+    @media (max-width: 450px) {
+
+      .container {
+        padding: 0 15px;
+      }
+
+      .logo {
+        font-size: 1.2rem;
+      }
+
+      .hero h1 {
+        font-size: 2.25rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .button {
+        text-align: center;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+    <div class="container header-inner">
+
+      <a href="/" class="logo">
+        Chicago <span>SEO Company</span>
+      </a>
+
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li>
+            <a href="#contact" class="nav-button">Get Started</a>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- MOBILE NAV -->
+
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <nav class="mobile-nav" id="mobileNav">
+
+    <button class="close-menu" id="closeMenu" aria-label="Close navigation">
+      ×
+    </button>
+
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Our Process</a></li>
+      <li><a href="#contact">Get Started</a></li>
+    </ul>
+
+  </nav>
+
+
+  <!-- HERO -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="container">
+
+        <div class="hero-content">
+
+          <span class="hero-label">
+            Search Engine Optimization
+          </span>
+
+          <h1>
+            Chicago SEO Company Helping Businesses
+            <span>Get Found Online</span>
+          </h1>
+
+          <p>
+            We help businesses build stronger search visibility,
+            attract qualified organic traffic, and turn search
+            engine visits into meaningful business opportunities.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="#contact" class="button button-primary">
+              Get an SEO Strategy
+            </a>
+
+            <a href="#services" class="button button-secondary">
+              Explore SEO Services
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- INTRO -->
+
+    <section class="intro">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div class="label">
+            Chicago SEO Services
+          </div>
+
+          <h2>
+            SEO built around how your customers search
+          </h2>
+
+          <p>
+            Search visibility comes from more than placing keywords
+            on a webpage. Our approach connects technical SEO,
+            content, search intent, site structure, and authority
+            to create a stronger organic search presence.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SERVICES -->
+
+    <section class="services" id="services">
+
+      <div class="container">
+
+        <div class="service-grid">
+
+          <article class="service-card">
+
+            <div class="service-number">01</div>
+
+            <h3>Technical SEO</h3>
+
+            <p>
+              Improve the technical foundation of your website with
+              better crawlability, indexing, site architecture,
+              performance, and search-friendly implementation.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="service-number">02</div>
+
+            <h3>On-Page SEO</h3>
+
+            <p>
+              Optimize important pages around search intent,
+              topical relevance, headings, internal links,
+              metadata, and useful content.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="service-number">03</div>
+
+            <h3>Content SEO</h3>
+
+            <p>
+              Build useful search-focused content that answers
+              customer questions and creates stronger topical
+              relevance around your most important subjects.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="service-number">04</div>
+
+            <h3>Local SEO</h3>
+
+            <p>
+              Strengthen local search visibility and help potential
+              customers discover your business when they search
+              for relevant products and services.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="service-number">05</div>
+
+            <h3>Ecommerce SEO</h3>
+
+            <p>
+              Improve product and category visibility with stronger
+              site architecture, product content, internal linking,
+              and search-focused optimization.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="service-number">06</div>
+
+            <h3>SEO Audits</h3>
+
+            <p>
+              Identify technical, content, structural, and
+              optimization opportunities that can prevent your
+              website from reaching its search potential.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WHY US -->
+
+    <section class="why-us">
+
+      <div class="container">
+
+        <div class="why-grid">
+
+          <div class="why-content">
+
+            <h2>
+              A practical approach to organic growth
+            </h2>
+
+            <p>
+              Effective SEO requires a clear understanding of the
+              website, its audience, its competitors, and the
+              searches that matter to the business.
+            </p>
+
+            <p>
+              We focus on improvements that make the website more
+              useful for visitors while making its content and
+              structure easier for search engines to understand.
+            </p>
+
+          </div>
+
+          <ul class="why-list">
+
+            <li>
+              Search intent focused strategy
+            </li>
+
+            <li>
+              Technical and content optimization
+            </li>
+
+            <li>
+              Clear internal linking structures
+            </li>
+
+            <li>
+              Data-informed SEO decisions
+            </li>
+
+            <li>
+              Continuous content improvement
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PROCESS -->
+
+    <section class="process" id="process">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div class="label">
+            Our Process
+          </div>
+
+          <h2>
+            From SEO research to measurable improvements
+          </h2>
+
+          <p>
+            Our process starts with understanding where your
+            website currently stands and identifying the
+            opportunities that can make the biggest difference.
+          </p>
+
+        </div>
+
+
+        <div class="process-grid">
+
+          <article class="process-card">
+
+            <span>STEP 01</span>
+
+            <h3>Research & Audit</h3>
+
+            <p>
+              Analyze your website, search visibility, content,
+              technical setup, keywords, and opportunities for
+              improvement.
+            </p>
+
+          </article>
+
+
+          <article class="process-card">
+
+            <span>STEP 02</span>
+
+            <h3>Strategy & Optimization</h3>
+
+            <p>
+              Turn research into a practical SEO strategy covering
+              content, technical improvements, internal linking,
+              and search intent.
+            </p>
+
+          </article>
+
+
+          <article class="process-card">
+
+            <span>STEP 03</span>
+
+            <h3>Measure & Improve</h3>
+
+            <p>
+              Monitor search performance and continuously refine
+              the website as new opportunities and search trends
+              emerge.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta" id="contact">
+
+      <div class="container">
+
+        <div class="cta-content">
+
+          <h2>
+            Ready to improve your search visibility?
+          </h2>
+
+          <p>
+            Start with a clear understanding of where your website
+            stands and what needs to improve.
+          </p>
+
+          <a href="mailto:hello@example.com" class="button button-primary">
+            Contact Us
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-links">
+
+        <a href="/">Home</a>
+
+        <a href="/blog/">Blog</a>
+
+        <a href="#services">Services</a>
+
+        <a href="#contact">Contact</a>
+
+      </div>
+
+      <p>
+        © 2026 Chicago SEO Company. All rights reserved.
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <!-- MOBILE MENU JS -->
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const menuToggle = document.getElementById("menuToggle");
+      const mobileNav = document.getElementById("mobileNav");
+      const mobileOverlay = document.getElementById("mobileOverlay");
+      const closeMenu = document.getElementById("closeMenu");
+
+      function openMenu() {
+        mobileNav.classList.add("active");
+        mobileOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobileMenu() {
+        mobileNav.classList.remove("active");
+        mobileOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      menuToggle.addEventListener("click", openMenu);
+
+      closeMenu.addEventListener("click", closeMobileMenu);
+
+      mobileOverlay.addEventListener("click", closeMobileMenu);
+
+      mobileNav.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", closeMobileMenu);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (
+          event.key === "Escape" &&
+          mobileNav.classList.contains("active")
+        ) {
+          closeMobileMenu();
+        }
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>

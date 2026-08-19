@@ -1,568 +1,713 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+  const POSTS_JSON = "/posts.json";
 
-/* ==================================================
-   MOBILE NAVIGATION
-================================================== */
+  const postList = document.getElementById("postList");
+  const recentPosts = document.getElementById("recentPosts");
+  const popularPosts = document.getElementById("popularPosts");
+  const relatedPosts = document.getElementById("relatedPosts");
+  const categoryList = document.getElementById("categoryList");
 
-const menuToggle =
-    document.getElementById("menuToggle");
-
-const mobileNav =
-    document.getElementById("mobileNav");
-
-const mobileOverlay =
-    document.getElementById("mobileOverlay");
-
-const closeMenu =
-    document.getElementById("closeMenu");
+  let allPosts = [];
 
 
-function openMenu() {
+  /* =========================================================
+     LOAD POSTS
+  ========================================================= */
 
-    if (mobileNav) {
-        mobileNav.classList.add("active");
+  async function loadPosts() {
+
+    try {
+
+      const response = await fetch(POSTS_JSON, {
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error("Could not load posts.json");
+      }
+
+      allPosts = await response.json();
+
+      if (!Array.isArray(allPosts)) {
+        throw new Error("posts.json must contain an array of posts");
+      }
+
+      /*
+        Sort newest first.
+      */
+      allPosts.sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+
+
+      /*
+        Load the opening paragraph of every post.
+      */
+      await Promise.all(
+        allPosts.map(async function (post) {
+          post.excerpt = await getPostExcerpt(post.url);
+        })
+      );
+
+
+      /*
+        Generate the different sections.
+      */
+      generatePostList();
+      generateRecentPosts();
+      generatePopularPosts();
+      generateCategories();
+      generateRelatedPosts();
+
+    } catch (error) {
+
+      console.error("Blog error:", error);
+
+      if (postList) {
+        postList.innerHTML =
+          '<p class="blog-error">Unable to load blog posts.</p>';
+      }
+
     }
 
-    if (mobileOverlay) {
-        mobileOverlay.classList.add("active");
+  }
+
+
+  /* =========================================================
+     GET EXCERPT FROM FIRST PARAGRAPH
+  ========================================================= */
+
+  async function getPostExcerpt(url) {
+
+    try {
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        return "";
+      }
+
+      const html = await response.text();
+
+      const parser = new DOMParser();
+
+      const postDocument = parser.parseFromString(
+        html,
+        "text/html"
+      );
+
+
+      /*
+        Find the first paragraph inside .post-body.
+      */
+      const paragraphs =
+        postDocument.querySelectorAll(".post-body p");
+
+
+      if (!paragraphs.length) {
+        return "";
+      }
+
+
+      /*
+        Start with the first paragraph.
+      */
+      let excerpt = paragraphs[0].textContent.trim();
+
+
+      /*
+        If the first paragraph is extremely short,
+        add the next paragraph.
+      */
+      if (
+        excerpt.length < 100 &&
+        paragraphs.length > 1
+      ) {
+
+        const secondParagraph =
+          paragraphs[1].textContent.trim();
+
+        excerpt += " " + secondParagraph;
+
+      }
+
+
+      /*
+        Limit excerpt length.
+      */
+      excerpt = shortenText(excerpt, 190);
+
+      return excerpt;
+
+    } catch (error) {
+
+      console.warn(
+        "Could not generate excerpt for:",
+        url,
+        error
+      );
+
+      return "";
+
     }
 
-    if (menuToggle) {
-        menuToggle.setAttribute(
-            "aria-expanded",
-            "true"
-        );
+  }
+
+
+  /* =========================================================
+     SHORTEN TEXT
+  ========================================================= */
+
+  function shortenText(text, maxLength) {
+
+    if (!text) {
+      return "";
     }
 
-    document.body.classList.add("menu-open");
-}
-
-
-function closeMobileMenu() {
-
-    if (mobileNav) {
-        mobileNav.classList.remove("active");
+    if (text.length <= maxLength) {
+      return text;
     }
 
-    if (mobileOverlay) {
-        mobileOverlay.classList.remove("active");
-    }
+    /*
+      Cut at the last complete word rather than
+      cutting a word in half.
+    */
+    let shortened = text.substring(0, maxLength);
 
-    if (menuToggle) {
-        menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-    }
-
-    document.body.classList.remove("menu-open");
-}
-
-
-if (menuToggle) {
-
-    menuToggle.addEventListener(
-        "click",
-        function () {
-
-            if (
-                mobileNav &&
-                mobileNav.classList.contains("active")
-            ) {
-
-                closeMobileMenu();
-
-            } else {
-
-                openMenu();
-
-            }
-
-        }
+    shortened = shortened.substring(
+      0,
+      shortened.lastIndexOf(" ")
     );
 
-}
+    return shortened.trim() + "...";
+
+  }
 
 
-if (closeMenu) {
+  /* =========================================================
+     CREATE BLOG POST LIST
+  ========================================================= */
 
-    closeMenu.addEventListener(
-        "click",
-        closeMobileMenu
-    );
+  function generatePostList() {
 
-}
-
-
-if (mobileOverlay) {
-
-    mobileOverlay.addEventListener(
-        "click",
-        closeMobileMenu
-    );
-
-}
-
-
-if (mobileNav) {
-
-    mobileNav
-        .querySelectorAll("a")
-        .forEach(function (link) {
-
-            link.addEventListener(
-                "click",
-                closeMobileMenu
-            );
-
-        });
-
-}
-
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key === "Escape" &&
-            mobileNav &&
-            mobileNav.classList.contains("active")
-        ) {
-
-            closeMobileMenu();
-
-        }
-
+    if (!postList) {
+      return;
     }
-);
 
+    if (!allPosts.length) {
 
-/* ==================================================
-   LOAD POSTS DATA
-================================================== */
+      postList.innerHTML =
+        '<p class="blog-empty">No blog posts available.</p>';
 
-fetch("/blog/posts-data.json")
+      return;
+    }
 
-    .then(function (response) {
 
-        if (!response.ok) {
+    postList.innerHTML = "";
 
-            throw new Error(
-                "posts-data.json could not be loaded."
-            );
 
-        }
+    allPosts.forEach(function (post) {
 
-        return response.json();
+      const card = document.createElement("article");
 
-    })
+      card.className = "blog-card";
 
-    .then(function (posts) {
 
+      /*
+        Category
+      */
+      const tag = document.createElement("span");
 
-        /* ==========================================
-           BLOG POST LIST
-        ========================================== */
+      tag.className = "blog-card-tag";
 
-        const blogPostList =
-            document.getElementById(
-                "blog-post-list"
-            );
+      tag.textContent =
+        post.category || "SEO";
 
 
-        if (blogPostList) {
+      /*
+        Title
+        Only the title is clickable.
+      */
+      const title = document.createElement("h2");
 
+      const titleLink = document.createElement("a");
 
-            if (!posts.length) {
+      titleLink.href = post.url;
 
-                blogPostList.innerHTML = `
-                    <p class="no-posts">
-                        No posts published yet.
-                    </p>
-                `;
+      titleLink.textContent =
+        post.title || "Untitled Post";
 
-            } else {
+      title.appendChild(titleLink);
 
 
-                blogPostList.innerHTML =
-                    posts.map(function (post) {
+      /*
+        Date
+      */
+      const date = document.createElement("span");
 
-                        return `
+      date.className = "blog-card-date";
 
-                        <article class="blog-post-card">
+      date.textContent =
+        formatDate(post.date);
 
-                            <span class="blog-post-tag">
 
-                                ${escapeHTML(
-                                    post.category
-                                )}
+      /*
+        Excerpt
+      */
+      const excerpt = document.createElement("p");
 
-                            </span>
+      excerpt.className = "blog-card-excerpt";
 
+      excerpt.textContent =
+        post.excerpt || "";
 
-                            <h2 class="blog-post-title">
 
-                                <a
-                                    href="${post.url}"
-                                >
+      /*
+        Read More
+        Only the button is clickable.
+      */
+      const readMore = document.createElement("a");
 
-                                    ${escapeHTML(
-                                        post.title
-                                    )}
+      readMore.className = "blog-card-read-more";
 
-                                </a>
+      readMore.href = post.url;
 
-                            </h2>
+      readMore.innerHTML =
+        'Read more <span aria-hidden="true">→</span>';
 
 
-                            <span class="blog-post-date">
+      /*
+        Assemble card
+      */
+      card.appendChild(tag);
 
-                                ${formatDate(
-                                    post.date
-                                )}
+      card.appendChild(title);
 
-                            </span>
+      card.appendChild(date);
 
+      card.appendChild(excerpt);
 
-                            <p class="blog-post-description">
+      card.appendChild(readMore);
 
-                                ${escapeHTML(
-                                    post.description
-                                )}
 
-                            </p>
+      postList.appendChild(card);
 
+    });
 
-                            <a
-                                href="${post.url}"
-                                class="blog-post-read-more"
-                            >
+  }
 
-                                Read more
 
-                                <svg
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    aria-hidden="true"
-                                >
+  /* =========================================================
+     RECENT POSTS
+  ========================================================= */
 
-                                    <path d="M5 12h14"/>
+  function generateRecentPosts() {
 
-                                    <path d="m13 6 6 6-6 6"/>
+    if (!recentPosts) {
+      return;
+    }
 
-                                </svg>
+    recentPosts.innerHTML = "";
 
-                            </a>
 
-                        </article>
+    /*
+      First five newest posts.
+    */
+    const recent =
+      allPosts.slice(0, 5);
 
-                        `;
 
-                    }).join("");
+    recent.forEach(function (post) {
 
-            }
+      const item =
+        document.createElement("div");
 
-        }
+      item.className = "recent-post";
 
 
-        /* ==========================================
-           RECENT POSTS
-        ========================================== */
+      const link =
+        document.createElement("a");
 
-        const recentContainer =
-            document.getElementById(
-                "recent-posts-container"
-            );
+      link.href = post.url;
 
+      link.textContent =
+        post.title;
 
-        if (recentContainer) {
 
+      const date =
+        document.createElement("span");
 
-            const recentPosts =
-                posts.slice(0, 5);
+      date.className = "date";
 
+      date.textContent =
+        formatDate(post.date);
 
-            if (!recentPosts.length) {
 
-                recentContainer.innerHTML =
-                    "<p>No recent posts.</p>";
+      item.appendChild(link);
 
-            } else {
+      item.appendChild(date);
 
-                recentContainer.innerHTML =
-                    recentPosts.map(function (post) {
+      recentPosts.appendChild(item);
 
-                        return `
+    });
 
-                        <div class="recent-post">
+  }
 
-                            <a
-                                href="${post.url}"
-                            >
 
-                                ${escapeHTML(
-                                    post.title
-                                )}
+  /* =========================================================
+     POPULAR POSTS
+  ========================================================= */
 
-                            </a>
+  function generatePopularPosts() {
 
+    if (!popularPosts) {
+      return;
+    }
 
-                            <span class="date">
+    popularPosts.innerHTML = "";
 
-                                ${formatDate(
-                                    post.date
-                                )}
 
-                            </span>
+    /*
+      Popularity is determined by the optional
+      "views" value in posts.json.
 
-                        </div>
+      If no views value exists, it defaults to 0.
+    */
+    const popular =
+      [...allPosts]
+        .sort(function (a, b) {
 
-                        `;
+          return (
+            Number(b.views || 0) -
+            Number(a.views || 0)
+          );
 
-                    }).join("");
+        })
+        .slice(0, 5);
 
-            }
 
-        }
+    popular.forEach(function (post) {
 
+      const item =
+        document.createElement("div");
 
-        /* ==========================================
-           CATEGORIES
-        ========================================== */
+      item.className = "recent-post";
 
-        const categoriesContainer =
-            document.getElementById(
-                "categories-container"
-            );
 
+      const link =
+        document.createElement("a");
 
-        if (categoriesContainer) {
+      link.href = post.url;
 
+      link.textContent =
+        post.title;
 
-            const categories = {};
 
+      item.appendChild(link);
 
-            posts.forEach(function (post) {
+      popularPosts.appendChild(item);
 
-                if (!post.category) {
-                    return;
-                }
+    });
 
-                categories[post.category] =
-                    (categories[post.category] || 0) + 1;
+  }
 
-            });
 
+  /* =========================================================
+     CATEGORIES
+  ========================================================= */
 
-            categoriesContainer.innerHTML =
-                Object.entries(categories)
+  function generateCategories() {
 
-                    .map(function (
-                        [category, count]
-                    ) {
+    if (!categoryList) {
+      return;
+    }
 
-                        return `
+    categoryList.innerHTML = "";
 
-                        <li class="category-item">
 
-                            <a href="#">
+    const categories = {};
 
-                                ${escapeHTML(
-                                    category
-                                )}
 
-                                <span class="count">
+    allPosts.forEach(function (post) {
 
-                                    ${count}
+      const category =
+        post.category || "SEO";
 
-                                </span>
 
-                            </a>
+      if (!categories[category]) {
+        categories[category] = 0;
+      }
 
-                        </li>
-
-                        `;
-
-                    })
-
-                    .join("");
-
-        }
-
-
-        /* ==========================================
-           RELATED POSTS
-        ========================================== */
-
-        const relatedContainer =
-            document.getElementById(
-                "related-posts-container"
-            );
-
-
-        if (relatedContainer) {
-
-
-            const currentTitle =
-                document.querySelector(
-                    'meta[name="post-title"]'
-                )?.content || "";
-
-
-            const currentCategory =
-                document.querySelector(
-                    'meta[name="post-category"]'
-                )?.content || "";
-
-
-            const relatedPosts =
-                posts
-
-                    .filter(function (post) {
-
-                        return (
-                            post.title !== currentTitle &&
-                            post.category === currentCategory
-                        );
-
-                    })
-
-                    .slice(0, 4);
-
-
-            if (!relatedPosts.length) {
-
-                relatedContainer.innerHTML =
-                    "<p>No related posts yet.</p>";
-
-            } else {
-
-
-                relatedContainer.innerHTML =
-                    relatedPosts
-
-                        .map(function (post) {
-
-                            return `
-
-                            <a
-                                href="${post.url}"
-                                class="related-post-card"
-                            >
-
-                                <span class="related-tag">
-
-                                    ${escapeHTML(
-                                        post.category
-                                    )}
-
-                                </span>
-
-
-                                <h4>
-
-                                    ${escapeHTML(
-                                        post.title
-                                    )}
-
-                                </h4>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        post.description
-                                    )}
-
-                                </p>
-
-
-                                <span class="related-read">
-
-                                    Read more →
-
-                                </span>
-
-                            </a>
-
-                            `;
-
-                        })
-
-                        .join("");
-
-            }
-
-        }
-
-
-    })
-
-    .catch(function (error) {
-
-        console.error(
-            "Blog system error:",
-            error
-        );
+      categories[category]++;
 
     });
 
 
-/* ==================================================
-   HELPERS
-================================================== */
+    Object.keys(categories)
+      .sort()
+      .forEach(function (category) {
 
-function formatDate(dateString) {
+        const li =
+          document.createElement("li");
+
+
+        const link =
+          document.createElement("a");
+
+        link.href =
+          "/blog/?category=" +
+          encodeURIComponent(category);
+
+
+        link.textContent =
+          category;
+
+
+        const count =
+          document.createElement("span");
+
+        count.className = "count";
+
+        count.textContent =
+          categories[category];
+
+
+        link.appendChild(count);
+
+        li.appendChild(link);
+
+        categoryList.appendChild(li);
+
+      });
+
+  }
+
+
+  /* =========================================================
+     RELATED POSTS
+  ========================================================= */
+
+  function generateRelatedPosts() {
+
+    if (!relatedPosts) {
+      return;
+    }
+
+
+    /*
+      Determine the current article from the URL.
+    */
+    const currentUrl =
+      window.location.pathname
+        .replace(/\/$/, "");
+
+
+    /*
+      Find current post.
+    */
+    const currentPost =
+      allPosts.find(function (post) {
+
+        return normalizeUrl(post.url) ===
+          normalizeUrl(currentUrl);
+
+      });
+
+
+    /*
+      If this is not a blog post page,
+      use the newest posts instead.
+    */
+    if (!currentPost) {
+
+      renderRelatedPosts(
+        allPosts.slice(0, 4)
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Prefer posts from the same category.
+    */
+    let related =
+      allPosts.filter(function (post) {
+
+        return (
+          normalizeUrl(post.url) !==
+            normalizeUrl(currentPost.url)
+          &&
+          post.category &&
+          currentPost.category &&
+          post.category.toLowerCase() ===
+            currentPost.category.toLowerCase()
+        );
+
+      });
+
+
+    /*
+      If there aren't enough posts in the
+      same category, add other posts.
+    */
+    if (related.length < 4) {
+
+      const additional =
+        allPosts.filter(function (post) {
+
+          return (
+            normalizeUrl(post.url) !==
+              normalizeUrl(currentPost.url)
+            &&
+            !related.includes(post)
+          );
+
+        });
+
+
+      related =
+        related.concat(additional);
+
+    }
+
+
+    /*
+      Limit to four related posts.
+    */
+    related =
+      related.slice(0, 4);
+
+
+    renderRelatedPosts(related);
+
+  }
+
+
+  /* =========================================================
+     RENDER RELATED POSTS
+  ========================================================= */
+
+  function renderRelatedPosts(posts) {
+
+    relatedPosts.innerHTML = "";
+
+
+    posts.forEach(function (post) {
+
+      const card =
+        document.createElement("a");
+
+      card.className = "related-card";
+
+      card.href = post.url;
+
+
+      const tag =
+        document.createElement("span");
+
+      tag.className = "related-tag";
+
+      tag.textContent =
+        post.category || "SEO";
+
+
+      const title =
+        document.createElement("h4");
+
+      title.textContent =
+        post.title;
+
+
+      const excerpt =
+        document.createElement("p");
+
+      excerpt.textContent =
+        post.excerpt || "";
+
+
+      const readMore =
+        document.createElement("span");
+
+      readMore.className =
+        "related-link";
+
+      readMore.innerHTML =
+        'Read more <span aria-hidden="true">→</span>';
+
+
+      card.appendChild(tag);
+
+      card.appendChild(title);
+
+      card.appendChild(excerpt);
+
+      card.appendChild(readMore);
+
+
+      relatedPosts.appendChild(card);
+
+    });
+
+  }
+
+
+  /* =========================================================
+     DATE FORMAT
+  ========================================================= */
+
+  function formatDate(dateString) {
 
     if (!dateString) {
-        return "";
+      return "";
     }
+
 
     const date =
-        new Date(dateString);
+      new Date(dateString);
+
 
     if (isNaN(date.getTime())) {
-        return dateString;
+      return dateString;
     }
+
 
     return date.toLocaleDateString(
-        "en-US",
-        {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        }
+      "en-US",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      }
     );
 
-}
+  }
 
 
-function escapeHTML(value) {
+  /* =========================================================
+     NORMALIZE URL
+  ========================================================= */
 
-    if (!value) {
-        return "";
+  function normalizeUrl(url) {
+
+    if (!url) {
+      return "";
     }
 
-    return String(value)
+    return url
+      .replace(/^https?:\/\/[^/]+/i, "")
+      .replace(/\.html$/i, "")
+      .replace(/\/$/, "");
 
-        .replace(/&/g, "&amp;")
+  }
 
-        .replace(/</g, "&lt;")
 
-        .replace(/>/g, "&gt;")
+  /* =========================================================
+     START BLOG
+  ========================================================= */
 
-        .replace(/"/g, "&quot;")
-
-        .replace(/'/g, "&#039;");
-
-}
+  loadPosts();
 
 });

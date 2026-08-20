@@ -41,22 +41,22 @@ SEO Fundamentals
 
 <meta
     property="og:title"
-    content="[ CATEGORY NAME ]"
+    content="SEO Fundamentals"
 >
 
 <meta
     property="og:description"
-    content="[ CATEGORY DESCRIPTION ]"
+    content="Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility."
 >
 
 <meta
     property="og:url"
-    content="https://chicagoseocompany.netlify.app/blog/category/[CATEGORY SLUG]"
+    content="https://chicagoseocompany.netlify.app/blog/category/seo-fundamentals"
 >
 
 <meta
     property="og:site_name"
-    content=""
+    content="Chicago SEO Company"
 >
 
 <meta
@@ -66,34 +66,18 @@ SEO Fundamentals
 
 <meta
     name="twitter:title"
-    content=""
+    content="SEO Fundamentals"
 >
 
 <meta
     name="twitter:description"
-    content=""
+    content="Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility."
 >
 
 
 <!--
 ==================================================
 CATEGORY DATA
-==================================================
-
-blog.js uses the category slug from the URL.
-
-The page URL determines which category is displayed.
-
-Example:
-
-/blog/category/local-seo/
-
-blog.js reads:
-
-local-seo
-
-and filters posts-data.json accordingly.
-
 ==================================================
 -->
 
@@ -162,7 +146,7 @@ BLOG JS
 
 <!--
 ==================================================
-CATEGORY STRUCTURED DATA
+STRUCTURED DATA
 ==================================================
 -->
 
@@ -172,10 +156,10 @@ CATEGORY STRUCTURED DATA
     "@type": "CollectionPage",
     "name": "SEO Fundamentals",
     "description": "Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility. These guides establish the core concepts businesses need before tackling more specialized SEO strategies.",
-    "url": "https://chicagoseocompany.netlify.app/blog/category/[CATEGORY SLUG]",
+    "url": "https://chicagoseocompany.netlify.app/blog/category/seo-fundamentals",
     "isPartOf": {
         "@type": "Blog",
-        "name": "CSC Blog",
+        "name": "Chicago SEO Company Blog",
         "url": "https://chicagoseocompany.netlify.app/blog"
     }
 }
@@ -346,7 +330,7 @@ Blog
 
 
 <span class="current">
-[CATEGORY NAME]
+SEO Fundamentals
 </span>
 
 </nav>
@@ -354,12 +338,16 @@ Blog
 
 <!--
 ==================================================
-CATEGORY HEADER
+CATEGORY PAGE
 ==================================================
 -->
 
-<section class="category-page">
+<section
+    class="category-page"
+    id="category-page-content"
+>
 
+<header class="category-header">
 
 <span class="category-label">
 Blog Category
@@ -367,9 +355,7 @@ Blog Category
 
 
 <h1 class="category-title">
-
 SEO Fundamentals
-
 </h1>
 
 
@@ -380,28 +366,31 @@ Understand how search engine optimization works, from crawling and indexing to r
 </p>
 
 
-</section>
+<span
+    class="category-post-count"
+    id="category-post-count"
+>
+</span>
+
+</header>
 
 
 <!--
 ==================================================
 CATEGORY POSTS
-==================================================
 
-blog.js automatically inserts posts belonging
-to this category here.
+blog.js automatically inserts the SEO
+Fundamentals posts here.
 
 ==================================================
 -->
 
-<section
-    class="category-posts"
->
-
 <div
-    id="category-page-content"
+    class="category-post-list"
+    id="category-post-list"
 >
 </div>
+
 
 </section>
 

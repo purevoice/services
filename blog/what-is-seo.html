@@ -70,6 +70,11 @@
 >
 
 <meta
+    property="article:section"
+    content="SEO Fundamentals"
+>
+
+<meta
     name="twitter:card"
     content="summary_large_image"
 >
@@ -89,6 +94,14 @@
     content="https://chicagoseocompany.netlify.app/blog/images/what-is-seo.jpg"
 >
 
+<!--
+==================================================
+BLOG POST DATA
+==================================================
+These values are read by blog.js.
+==================================================
+-->
+
 <meta
     name="post-title"
     content="What Is SEO? A Complete Guide to Search Engine Optimization"
@@ -107,6 +120,11 @@
 <meta
     name="post-category"
     content="SEO Fundamentals"
+>
+
+<meta
+    name="post-category-slug"
+    content="seo-fundamentals"
 >
 
 <meta
@@ -140,6 +158,13 @@
     src="/blog/blog.js"
 ></script>
 
+
+<!--
+==================================================
+ARTICLE STRUCTURED DATA
+==================================================
+-->
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -149,6 +174,7 @@
   "datePublished": "2026-08-20",
   "dateModified": "2026-08-20",
   "image": "https://chicagoseocompany.netlify.app/blog/images/what-is-seo.jpg",
+  "articleSection": "SEO Fundamentals",
   "author": {
     "@type": "Organization",
     "name": "Chicago SEO Company"
@@ -166,7 +192,15 @@
 
 </head>
 
+
 <body>
+
+
+<!--
+==================================================
+HEADER
+==================================================
+-->
 
 <header>
 
@@ -179,6 +213,7 @@ Chicago SEO Company
 </a>
 
 </div>
+
 
 <nav class="desktop-nav">
 
@@ -200,6 +235,7 @@ Blog
 
 </nav>
 
+
 <button
     class="menu-toggle"
     id="menuToggle"
@@ -217,6 +253,12 @@ Blog
 
 </header>
 
+
+<!--
+==================================================
+MOBILE NAVIGATION
+==================================================
+-->
 
 <div
     class="mobile-overlay"
@@ -239,6 +281,7 @@ Blog
 ✕
 </button>
 
+
 <ul>
 
 <li>
@@ -258,11 +301,29 @@ Blog
 </nav>
 
 
+<!--
+==================================================
+MAIN CONTENT
+==================================================
+-->
+
 <div class="container main-grid">
 
 
+<!--
+==================================================
+BLOG POST
+==================================================
+-->
+
 <main class="post-content">
 
+
+<!--
+==================================================
+BREADCRUMBS
+==================================================
+-->
 
 <nav
     class="breadcrumbs"
@@ -277,17 +338,34 @@ Blog
 ⌂
 </a>
 
+
 <span class="sep">
 ›
 </span>
+
 
 <a href="/blog">
 Blog
 </a>
 
+
 <span class="sep">
 ›
 </span>
+
+
+<a
+    href="/blog/category/seo-fundamentals"
+    class="breadcrumb-category"
+>
+SEO Fundamentals
+</a>
+
+
+<span class="sep">
+›
+</span>
+
 
 <span class="current">
 What Is SEO? A Complete Guide to Search Engine Optimization
@@ -296,12 +374,24 @@ What Is SEO? A Complete Guide to Search Engine Optimization
 </nav>
 
 
+<!--
+==================================================
+POST TITLE
+==================================================
+-->
+
 <h1 class="post-title">
 
 What Is SEO? A Complete Guide to Search Engine Optimization
 
 </h1>
 
+
+<!--
+==================================================
+POST META
+==================================================
+-->
 
 <div class="post-meta">
 
@@ -312,11 +402,45 @@ What Is SEO? A Complete Guide to Search Engine Optimization
 </div>
 
 
+<!--
+==================================================
+ARTICLE BODY
+==================================================
+-->
+
 <div class="post-body">
 
 <!--
 ==================================================
 AI ARTICLE CONTENT STARTS HERE
+
+The AI should replace everything between these
+comments with the complete article.
+
+HTML is allowed inside the article.
+
+Examples:
+
+<p>Article paragraph...</p>
+
+<h2>Heading</h2>
+
+<p>
+Text with an
+<a href="/blog/example-post">
+internal link
+</a>.
+</p>
+
+<ul>
+<li>List item</li>
+<li>List item</li>
+</ul>
+
+<strong>Bold text</strong>
+
+<em>Italic text</em>
+
 ==================================================
 -->
 
@@ -817,6 +941,18 @@ AI ARTICLE CONTENT ENDS HERE
 </div>
 
 
+<!--
+==================================================
+RELATED POSTS
+==================================================
+
+blog.js automatically finds posts belonging to
+the same category and inserts them here.
+
+No related posts need to be manually entered.
+==================================================
+-->
+
 <section
     class="related-posts"
 >
@@ -824,6 +960,7 @@ AI ARTICLE CONTENT ENDS HERE
 <h3>
 Related Posts
 </h3>
+
 
 <div
     id="related-posts-container"
@@ -837,8 +974,23 @@ Related Posts
 </main>
 
 
+<!--
+==================================================
+SIDEBAR
+==================================================
+-->
+
 <aside class="sidebar">
 
+
+<!--
+==================================================
+RECENT POSTS
+==================================================
+
+blog.js automatically inserts the latest posts.
+==================================================
+-->
 
 <div class="sidebar-widget">
 
@@ -846,17 +998,38 @@ Related Posts
 Recent Posts
 </h3>
 
+
 <div id="recent-posts-container">
 </div>
 
 </div>
 
 
+<!--
+==================================================
+CATEGORIES
+==================================================
+
+blog.js automatically builds this list from the
+category names and category slugs.
+
+Example:
+
+SEO Fundamentals
+12
+
+links to:
+
+/blog/category/seo-fundamentals
+==================================================
+-->
+
 <div class="sidebar-widget">
 
 <h3>
 Categories
 </h3>
+
 
 <ul
     id="categories-container"
@@ -873,6 +1046,12 @@ Categories
 </div>
 
 
+<!--
+==================================================
+FOOTER
+==================================================
+-->
+
 <footer>
 
 <div class="container">
@@ -884,6 +1063,7 @@ Categories
 </div>
 
 </footer>
+
 
 </body>
 

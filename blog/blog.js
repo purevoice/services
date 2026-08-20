@@ -149,6 +149,8 @@ const categoryData = {
 
         name: "SEO Fundamentals",
 
+        slug: "seo-fundamentals",
+
         description:
             "Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility. These guides establish the core concepts businesses need before tackling more specialized SEO strategies."
 
@@ -158,6 +160,8 @@ const categoryData = {
     "local-seo": {
 
         name: "Local SEO",
+
+        slug: "local-seo",
 
         description:
             "Learn how businesses can improve visibility in local search, Google Maps, and location-based results. Explore the ranking signals, location pages, neighborhood relevance, and Google Business Profile factors that influence how local customers find a business."
@@ -169,6 +173,8 @@ const categoryData = {
 
         name: "Technical SEO",
 
+        slug: "technical-seo",
+
         description:
             "Improve the technical foundation that allows search engines to crawl, interpret, and index a website efficiently. These guides cover website architecture, technical issues, audits, internal linking, and the structural factors that support stronger organic visibility."
 
@@ -178,6 +184,8 @@ const categoryData = {
     "keyword-research-search-intent": {
 
         name: "Keyword Research & Search Intent",
+
+        slug: "keyword-research-search-intent",
 
         description:
             "Learn how to identify valuable search terms, understand what users expect from the results, and connect keywords with the right pages. Effective keyword research and search-intent analysis help prevent irrelevant targeting, overlapping pages, and missed search opportunities."
@@ -189,6 +197,8 @@ const categoryData = {
 
         name: "SEO Content Strategy",
 
+        slug: "seo-content-strategy",
+
         description:
             "Build content around the questions, problems, and search intent that matter to your audience. These guides cover content planning, optimization, topical relevance, and practical ways to improve existing pages so they serve users and perform better in organic search."
 
@@ -199,6 +209,8 @@ const categoryData = {
 
         name: "Link Building",
 
+        slug: "link-building",
+
         description:
             "Explore how relevant backlinks contribute to website authority and search visibility, and how businesses can earn links that make sense for their industry and audience. Learn to evaluate link quality, develop local link opportunities, and build authority without relying on low-value tactics."
 
@@ -208,6 +220,8 @@ const categoryData = {
     "seo-services-pricing": {
 
         name: "SEO Services & Pricing",
+
+        slug: "seo-services-pricing",
 
         description:
             "Understand the commercial side of SEO, including what SEO services involve, what affects pricing, and how to assess an agency before committing to a campaign. These resources help businesses compare providers based on strategy, expertise, scope, and expected outcomes."
@@ -238,6 +252,19 @@ fetch("/blog/posts-data.json")
     })
 
     .then(function (posts) {
+
+
+        /*
+          Make sure posts is an array.
+        */
+
+        if (!Array.isArray(posts)) {
+
+            throw new Error(
+                "posts-data.json must contain an array of posts."
+            );
+
+        }
 
 
         /* ==========================================
@@ -293,7 +320,9 @@ fetch("/blog/posts-data.json")
                             <h2 class="blog-post-title">
 
                                 <a
-                                    href="${post.url}"
+                                    href="${escapeHTML(
+                                        post.url
+                                    )}"
                                 >
 
                                     ${escapeHTML(
@@ -322,7 +351,9 @@ fetch("/blog/posts-data.json")
 
 
                             <a
-                                href="${post.url}"
+                                href="${escapeHTML(
+                                    post.url
+                                )}"
                                 class="blog-post-read-more"
                             >
 
@@ -433,7 +464,9 @@ fetch("/blog/posts-data.json")
                         <div class="recent-post">
 
                             <a
-                                href="${post.url}"
+                                href="${escapeHTML(
+                                    post.url
+                                )}"
                             >
 
                                 ${escapeHTML(
@@ -466,92 +499,7 @@ fetch("/blog/posts-data.json")
            CATEGORIES
         ========================================== */
 
-        const categoriesContainer =
-            document.getElementById(
-                "categories-container"
-            );
-
-
-        if (categoriesContainer) {
-
-
-            const categories = {};
-
-
-            posts.forEach(function (post) {
-
-                if (
-                    !post.category ||
-                    !post.category_slug
-                ) {
-                    return;
-                }
-
-
-                if (
-                    !categories[
-                        post.category_slug
-                    ]
-                ) {
-
-                    categories[
-                        post.category_slug
-                    ] = {
-
-                        name: post.category,
-
-                        slug: post.category_slug,
-
-                        count: 0
-
-                    };
-
-                }
-
-
-                categories[
-                    post.category_slug
-                ].count++;
-
-            });
-
-
-            categoriesContainer.innerHTML =
-                Object.values(categories)
-
-                    .map(function (category) {
-
-                        return `
-
-                        <li class="category-item">
-
-                            <a
-                                href="/blog/category/${encodeURIComponent(
-                                    category.slug
-                                )}"
-                            >
-
-                                ${escapeHTML(
-                                    category.name
-                                )}
-
-                                <span class="count">
-
-                                    ${category.count}
-
-                                </span>
-
-                            </a>
-
-                        </li>
-
-                        `;
-
-                    })
-
-                    .join("");
-
-        }
+        renderCategories(posts);
 
 
         /* ==========================================
@@ -586,7 +534,8 @@ fetch("/blog/posts-data.json")
 
                         return (
                             post.title !== currentTitle &&
-                            post.category_slug === currentCategorySlug
+                            post.category_slug ===
+                                currentCategorySlug
                         );
 
                     })
@@ -610,7 +559,9 @@ fetch("/blog/posts-data.json")
                             return `
 
                             <a
-                                href="${post.url}"
+                                href="${escapeHTML(
+                                    post.url
+                                )}"
                                 class="related-post-card"
                             >
 
@@ -713,6 +664,109 @@ fetch("/blog/posts-data.json")
 
 
 /* ==================================================
+   RENDER SIDEBAR CATEGORIES
+================================================== */
+
+function renderCategories(posts) {
+
+    const categoriesContainer =
+        document.getElementById(
+            "categories-container"
+        );
+
+
+    if (!categoriesContainer) {
+        return;
+    }
+
+
+    /*
+      Count posts using category_slug.
+
+      The fixed categoryData object is used
+      to guarantee that every defined category
+      appears in the sidebar.
+    */
+
+    const categoryCounts = {};
+
+
+    Object.keys(categoryData)
+        .forEach(function (slug) {
+
+            categoryCounts[slug] = 0;
+
+        });
+
+
+    posts.forEach(function (post) {
+
+        if (!post.category_slug) {
+            return;
+        }
+
+
+        if (
+            Object.prototype.hasOwnProperty.call(
+                categoryCounts,
+                post.category_slug
+            )
+        ) {
+
+            categoryCounts[
+                post.category_slug
+            ]++;
+
+        }
+
+    });
+
+
+    categoriesContainer.innerHTML =
+        Object.values(categoryData)
+
+            .map(function (category) {
+
+                return `
+
+                <li class="category-item">
+
+                    <a
+                        href="/blog/category/${encodeURIComponent(
+                            category.slug
+                        )}"
+                    >
+
+                        <span class="category-name">
+
+                            ${escapeHTML(
+                                category.name
+                            )}
+
+                        </span>
+
+                        <span class="count">
+
+                            ${categoryCounts[
+                                category.slug
+                            ]}
+
+                        </span>
+
+                    </a>
+
+                </li>
+
+                `;
+
+            })
+
+            .join("");
+
+}
+
+
+/* ==================================================
    RENDER CATEGORY PAGE
 ================================================== */
 
@@ -725,26 +779,14 @@ function renderCategoryPage(posts) {
 
 
     /*
-      If this is not a category page,
-      stop here.
+      If the category page HTML does not contain
+      this container, do nothing.
     */
 
     if (!categoryContainer) {
         return;
     }
 
-
-    /*
-      Get the category slug from the URL.
-
-      Example:
-
-      /blog/category/local-seo
-
-      becomes:
-
-      local-seo
-    */
 
     const path =
         window.location.pathname
@@ -754,6 +796,12 @@ function renderCategoryPage(posts) {
     const categoryPrefix =
         "/blog/category/";
 
+
+    /*
+      Only run on:
+
+      /blog/category/category-slug
+    */
 
     if (
         path.indexOf(categoryPrefix) !== 0
@@ -772,10 +820,6 @@ function renderCategoryPage(posts) {
         );
 
 
-    /*
-      Find category information.
-    */
-
     const category =
         categoryData[categorySlug];
 
@@ -786,11 +830,23 @@ function renderCategoryPage(posts) {
 
             <section class="category-page">
 
-                <h1>Category Not Found</h1>
+                <header class="category-header">
 
-                <p>
-                    The requested blog category could not be found.
-                </p>
+                    <span class="category-label">
+                        Blog Category
+                    </span>
+
+                    <h1>
+                        Category Not Found
+                    </h1>
+
+                    <p class="category-description">
+
+                        The requested blog category could not be found.
+
+                    </p>
+
+                </header>
 
             </section>
 
@@ -802,8 +858,7 @@ function renderCategoryPage(posts) {
 
 
     /*
-      Only show posts belonging to
-      the current category.
+      Match posts using the category slug.
     */
 
     const categoryPosts =
@@ -818,7 +873,7 @@ function renderCategoryPage(posts) {
 
 
     /*
-      Render category header and post list.
+      Render category page.
     */
 
     categoryContainer.innerHTML = `
@@ -832,9 +887,11 @@ function renderCategoryPage(posts) {
                 </span>
 
                 <h1>
+
                     ${escapeHTML(
                         category.name
                     )}
+
                 </h1>
 
                 <p class="category-description">
@@ -848,6 +905,7 @@ function renderCategoryPage(posts) {
                 <span class="category-post-count">
 
                     ${categoryPosts.length}
+
                     ${
                         categoryPosts.length === 1
                             ? "article"
@@ -863,6 +921,7 @@ function renderCategoryPage(posts) {
 
                 ${
                     categoryPosts.length
+
                         ? categoryPosts
                             .map(function (post, index) {
 
@@ -885,7 +944,9 @@ function renderCategoryPage(posts) {
                                     <h2 class="blog-post-title">
 
                                         <a
-                                            href="${post.url}"
+                                            href="${escapeHTML(
+                                                post.url
+                                            )}"
                                         >
 
                                             ${escapeHTML(
@@ -914,7 +975,9 @@ function renderCategoryPage(posts) {
 
 
                                     <a
-                                        href="${post.url}"
+                                        href="${escapeHTML(
+                                            post.url
+                                        )}"
                                         class="blog-post-read-more"
                                     >
 
@@ -951,7 +1014,7 @@ function renderCategoryPage(posts) {
 
                             <p class="no-posts">
 
-                                No articles have been published
+                                No posts have been published
                                 in this category yet.
 
                             </p>
@@ -968,7 +1031,8 @@ function renderCategoryPage(posts) {
 
 
     /*
-      Load excerpts for category posts.
+      Load first paragraph excerpts for
+      category-page posts.
     */
 
     categoryPosts.forEach(function (post, index) {
@@ -1046,11 +1110,6 @@ function getPostExcerpt(url) {
                 );
 
 
-            /*
-              Only select the first paragraph
-              inside .post-body.
-            */
-
             const firstParagraph =
                 document.querySelector(
                     ".post-body p"
@@ -1068,10 +1127,6 @@ function getPostExcerpt(url) {
                     .trim();
 
 
-            /*
-              Limit the excerpt to 180 characters.
-            */
-
             if (excerpt.length > 180) {
 
                 excerpt =
@@ -1080,10 +1135,6 @@ function getPostExcerpt(url) {
                         180
                     );
 
-
-                /*
-                  Don't cut a word in half.
-                */
 
                 const lastSpace =
                     excerpt.lastIndexOf(" ");
@@ -1134,16 +1185,6 @@ function getHTMLPostURL(url) {
     }
 
 
-    /*
-      Your public URL:
-
-      /blog/post-name
-
-      Your actual file:
-
-      /blog/post-name.html
-    */
-
     if (url.endsWith(".html")) {
         return url;
     }
@@ -1155,7 +1196,7 @@ function getHTMLPostURL(url) {
 
 
 /* ==================================================
-   HELPERS
+   FORMAT DATE
 ================================================== */
 
 function formatDate(dateString) {
@@ -1164,12 +1205,15 @@ function formatDate(dateString) {
         return "";
     }
 
+
     const date =
         new Date(dateString);
+
 
     if (isNaN(date.getTime())) {
         return dateString;
     }
+
 
     return date.toLocaleDateString(
         "en-US",
@@ -1183,11 +1227,16 @@ function formatDate(dateString) {
 }
 
 
+/* ==================================================
+   ESCAPE HTML
+================================================== */
+
 function escapeHTML(value) {
 
     if (!value) {
         return "";
     }
+
 
     return String(value)
 

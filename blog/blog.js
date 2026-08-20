@@ -1091,39 +1091,21 @@ function renderCategoryPage(posts) {
 
             <header class="category-header">
 
-                <span class="category-label">
-                    Blog Category
-                </span>
+    <h1>
+        ${escapeHTML(
+            category.name
+        )}
+    </h1>
 
-                <h1>
+    <p class="category-description">
 
-                    ${escapeHTML(
-                        category.name
-                    )}
+        ${escapeHTML(
+            category.description
+        )}
 
-                </h1>
+    </p>
 
-                <p class="category-description">
-
-                    ${escapeHTML(
-                        category.description
-                    )}
-
-                </p>
-
-                <span class="category-post-count">
-
-                    ${categoryPosts.length}
-
-                    ${
-                        categoryPosts.length === 1
-                            ? "article"
-                            : "articles"
-                    }
-
-                </span>
-
-            </header>
+</header>
 
 
             <div class="category-post-list">

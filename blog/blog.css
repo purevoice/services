@@ -502,79 +502,6 @@ header {
 
 
 /* =========================
-   CATEGORY PAGES
-========================= */
-
-.category-page {
-    padding-bottom: 50px;
-}
-
-.category-header {
-    max-width: 850px;
-    padding: 45px 0 30px;
-}
-
-.category-label {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #8a6a1f;
-    background: var(--gold-soft);
-    padding: 4px 10px;
-    border-radius: 999px;
-    margin-bottom: 14px;
-}
-
-.category-header h1 {
-    font-family: "Source Serif 4", serif;
-    font-size: 2.8rem;
-    font-weight: 600;
-    color: var(--navy);
-    line-height: 1.2;
-    margin-bottom: 15px;
-}
-
-.category-description {
-    color: var(--ink-soft);
-    font-size: 1.05rem;
-    line-height: 1.7;
-    margin-bottom: 15px;
-}
-
-.category-post-count {
-    display: block;
-    font-size: 0.8rem;
-    color: #9a9689;
-}
-
-.category-post-list {
-    display: grid;
-    gap: 20px;
-    position: static;
-}
-
-.category-post-list .blog-post-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.category-post-list .blog-post-description {
-    position: static;
-    display: block;
-}
-
-.category-post-list .blog-post-title,
-.category-post-list .blog-post-date,
-.category-post-list .blog-post-description,
-.category-post-list .blog-post-read-more {
-    position: static;
-}
-
-
-/* =========================
    BLOG INDEX
 ========================= */
 
@@ -764,25 +691,6 @@ footer {
 
 }
 
-@media (max-width: 768px) {
-
-    .category-header {
-        padding: 30px 0 25px;
-    }
-
-    .category-header h1 {
-        font-size: 2.2rem;
-    }
-
-}
-
-@media (max-width: 400px) {
-
-    .category-header h1 {
-        font-size: 1.9rem;
-    }
-
-}
 
 @media (max-width: 400px) {
 

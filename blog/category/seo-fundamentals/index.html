@@ -5,18 +5,13 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>
-SEO Fundamentals
-</title>
+<title>SEO Fundamentals</title>
 
 <meta
     name="description"
-    content="Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility. These guides establish the core concepts businesses need before tackling more specialized SEO strategies."
+    content="Understand the fundamentals of SEO, including crawling, indexing, search rankings, search intent, keywords, content relevance, and organic search visibility."
 >
 
 <meta
@@ -46,7 +41,7 @@ SEO Fundamentals
 
 <meta
     property="og:description"
-    content="Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility."
+    content="Understand the fundamentals of SEO, including crawling, indexing, search rankings, search intent, keywords, content relevance, and organic search visibility."
 >
 
 <meta
@@ -56,7 +51,7 @@ SEO Fundamentals
 
 <meta
     property="og:site_name"
-    content="Chicago SEO Company"
+    content=""
 >
 
 <meta
@@ -71,7 +66,7 @@ SEO Fundamentals
 
 <meta
     name="twitter:description"
-    content="Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility."
+    content="Understand the fundamentals of SEO, including crawling, indexing, search rankings, search intent, keywords, content relevance, and organic search visibility."
 >
 
 
@@ -82,8 +77,8 @@ CATEGORY DATA
 -->
 
 <meta
-    name="category-page"
-    content="true"
+    name="category-name"
+    content="SEO Fundamentals"
 >
 
 <meta
@@ -91,17 +86,6 @@ CATEGORY DATA
     content="seo-fundamentals"
 >
 
-<meta
-    name="category-name"
-    content="SEO Fundamentals"
->
-
-
-<!--
-==================================================
-FONTS
-==================================================
--->
 
 <link
     rel="preconnect"
@@ -119,24 +103,10 @@ FONTS
     rel="stylesheet"
 >
 
-
-<!--
-==================================================
-BLOG CSS
-==================================================
--->
-
 <link
     rel="stylesheet"
     href="/blog/blog.css"
 >
-
-
-<!--
-==================================================
-BLOG JS
-==================================================
--->
 
 <script
     defer
@@ -152,16 +122,20 @@ STRUCTURED DATA
 
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "SEO Fundamentals",
-    "description": "Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility. These guides establish the core concepts businesses need before tackling more specialized SEO strategies.",
-    "url": "https://chicagoseocompany.netlify.app/blog/category/seo-fundamentals",
-    "isPartOf": {
-        "@type": "Blog",
-        "name": "Chicago SEO Company Blog",
-        "url": "https://chicagoseocompany.netlify.app/blog"
-    }
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "SEO Fundamentals",
+  "description": "Understand the fundamentals of SEO, including crawling, indexing, search rankings, search intent, keywords, content relevance, and organic search visibility.",
+  "url": "https://chicagoseocompany.netlify.app/blog/category/seo-fundamentals",
+  "isPartOf": {
+    "@type": "Blog",
+    "name": "",
+    "url": "https://chicagoseocompany.netlify.app/blog"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": ""
+  }
 }
 </script>
 
@@ -231,7 +205,7 @@ Blog
 
 <!--
 ==================================================
-MOBILE OVERLAY
+MOBILE NAVIGATION
 ==================================================
 -->
 
@@ -241,12 +215,6 @@ MOBILE OVERLAY
 >
 </div>
 
-
-<!--
-==================================================
-MOBILE NAVIGATION
-==================================================
--->
 
 <nav
     class="mobile-nav"
@@ -338,61 +306,36 @@ SEO Fundamentals
 
 <!--
 ==================================================
-CATEGORY PAGE
+CATEGORY PAGE CONTENT
 ==================================================
--->
 
-<section
-    class="category-page"
-    id="category-page-content"
->
+blog.js reads the current URL:
 
-<header class="category-header">
+/blog/category/seo-fundamentals
 
-<span class="category-label">
-Blog Category
-</span>
+It then loads posts-data.json, identifies the
+seo-fundamentals category, and automatically
+renders the matching posts inside this container.
 
-
-<h1 class="category-title">
-SEO Fundamentals
-</h1>
-
-
-<p class="category-description">
-
-Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility. These guides establish the core concepts businesses need before tackling more specialized SEO strategies.
-
-</p>
-
-
-<span
-    class="category-post-count"
-    id="category-post-count"
->
-</span>
-
-</header>
-
-
-<!--
-==================================================
-CATEGORY POSTS
-
-blog.js automatically inserts the SEO
-Fundamentals posts here.
-
+Do not manually add posts here.
 ==================================================
 -->
 
 <div
-    class="category-post-list"
-    id="category-post-list"
+    id="category-page-content"
 >
+
+    <!--
+    blog.js generates:
+
+    Category label
+    Category heading
+    Category description
+    Article count
+    Category post list
+    -->
+
 </div>
-
-
-</section>
 
 
 </main>
@@ -465,7 +408,10 @@ FOOTER
 <div class="container">
 
 <p>
-<a href="/">
+<a
+    href="/"
+    style="color: inherit; text-decoration: none;"
+>
 © Chicago SEO Company
 </a>
 </p>

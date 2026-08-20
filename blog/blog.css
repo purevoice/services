@@ -296,10 +296,10 @@ header {
 }
 
 .post-body a {
-    color: var(--navy);
-    text-decoration: underline;
-    text-decoration-color: var(--gold-soft);
-    text-underline-offset: 2px;
+  color: red;
+  text-decoration: underline;
+  text-decoration-color: var(--navy);
+  text-underline-offset: 2px;
 }
 
 .post-body a:hover {

@@ -140,6 +140,84 @@ document.addEventListener(
 
 
 /* ==================================================
+   CATEGORY INFORMATION
+================================================== */
+
+const categoryData = {
+
+    "seo-fundamentals": {
+
+        name: "SEO Fundamentals",
+
+        description:
+            "Understand how search engine optimization works, from crawling and indexing to rankings, relevance, and organic search visibility. These guides establish the core concepts businesses need before tackling more specialized SEO strategies."
+
+    },
+
+
+    "local-seo": {
+
+        name: "Local SEO",
+
+        description:
+            "Learn how businesses can improve visibility in local search, Google Maps, and location-based results. Explore the ranking signals, location pages, neighborhood relevance, and Google Business Profile factors that influence how local customers find a business."
+
+    },
+
+
+    "technical-seo": {
+
+        name: "Technical SEO",
+
+        description:
+            "Improve the technical foundation that allows search engines to crawl, interpret, and index a website efficiently. These guides cover website architecture, technical issues, audits, internal linking, and the structural factors that support stronger organic visibility."
+
+    },
+
+
+    "keyword-research-search-intent": {
+
+        name: "Keyword Research & Search Intent",
+
+        description:
+            "Learn how to identify valuable search terms, understand what users expect from the results, and connect keywords with the right pages. Effective keyword research and search-intent analysis help prevent irrelevant targeting, overlapping pages, and missed search opportunities."
+
+    },
+
+
+    "seo-content-strategy": {
+
+        name: "SEO Content Strategy",
+
+        description:
+            "Build content around the questions, problems, and search intent that matter to your audience. These guides cover content planning, optimization, topical relevance, and practical ways to improve existing pages so they serve users and perform better in organic search."
+
+    },
+
+
+    "link-building": {
+
+        name: "Link Building",
+
+        description:
+            "Explore how relevant backlinks contribute to website authority and search visibility, and how businesses can earn links that make sense for their industry and audience. Learn to evaluate link quality, develop local link opportunities, and build authority without relying on low-value tactics."
+
+    },
+
+
+    "seo-services-pricing": {
+
+        name: "SEO Services & Pricing",
+
+        description:
+            "Understand the commercial side of SEO, including what SEO services involve, what affects pricing, and how to assess an agency before committing to a campaign. These resources help businesses compare providers based on strategy, expertise, scope, and expected outcomes."
+
+    }
+
+};
+
+
+/* ==================================================
    LOAD POSTS DATA
 ================================================== */
 
@@ -160,6 +238,13 @@ fetch("/blog/posts-data.json")
     })
 
     .then(function (posts) {
+
+
+        /* ==========================================
+           CATEGORY PAGE
+        ========================================== */
+
+        renderCategoryPage(posts);
 
 
         /* ==========================================
@@ -395,36 +480,64 @@ fetch("/blog/posts-data.json")
 
             posts.forEach(function (post) {
 
-                if (!post.category) {
+                if (
+                    !post.category ||
+                    !post.category_slug
+                ) {
                     return;
                 }
 
-                categories[post.category] =
-                    (categories[post.category] || 0) + 1;
+
+                if (
+                    !categories[
+                        post.category_slug
+                    ]
+                ) {
+
+                    categories[
+                        post.category_slug
+                    ] = {
+
+                        name: post.category,
+
+                        slug: post.category_slug,
+
+                        count: 0
+
+                    };
+
+                }
+
+
+                categories[
+                    post.category_slug
+                ].count++;
 
             });
 
 
             categoriesContainer.innerHTML =
-                Object.entries(categories)
+                Object.values(categories)
 
-                    .map(function (
-                        [category, count]
-                    ) {
+                    .map(function (category) {
 
                         return `
 
                         <li class="category-item">
 
-                            <a href="#">
+                            <a
+                                href="/blog/category/${encodeURIComponent(
+                                    category.slug
+                                )}"
+                            >
 
                                 ${escapeHTML(
-                                    category
+                                    category.name
                                 )}
 
                                 <span class="count">
 
-                                    ${count}
+                                    ${category.count}
 
                                 </span>
 
@@ -460,9 +573,9 @@ fetch("/blog/posts-data.json")
                 )?.content || "";
 
 
-            const currentCategory =
+            const currentCategorySlug =
                 document.querySelector(
-                    'meta[name="post-category"]'
+                    'meta[name="post-category-slug"]'
                 )?.content || "";
 
 
@@ -473,7 +586,7 @@ fetch("/blog/posts-data.json")
 
                         return (
                             post.title !== currentTitle &&
-                            post.category === currentCategory
+                            post.category_slug === currentCategorySlug
                         );
 
                     })
@@ -597,6 +710,303 @@ fetch("/blog/posts-data.json")
         );
 
     });
+
+
+/* ==================================================
+   RENDER CATEGORY PAGE
+================================================== */
+
+function renderCategoryPage(posts) {
+
+    const categoryContainer =
+        document.getElementById(
+            "category-page-content"
+        );
+
+
+    /*
+      If this is not a category page,
+      stop here.
+    */
+
+    if (!categoryContainer) {
+        return;
+    }
+
+
+    /*
+      Get the category slug from the URL.
+
+      Example:
+
+      /blog/category/local-seo
+
+      becomes:
+
+      local-seo
+    */
+
+    const path =
+        window.location.pathname
+            .replace(/\/+$/, "");
+
+
+    const categoryPrefix =
+        "/blog/category/";
+
+
+    if (
+        path.indexOf(categoryPrefix) !== 0
+    ) {
+
+        return;
+
+    }
+
+
+    const categorySlug =
+        decodeURIComponent(
+            path.substring(
+                categoryPrefix.length
+            )
+        );
+
+
+    /*
+      Find category information.
+    */
+
+    const category =
+        categoryData[categorySlug];
+
+
+    if (!category) {
+
+        categoryContainer.innerHTML = `
+
+            <section class="category-page">
+
+                <h1>Category Not Found</h1>
+
+                <p>
+                    The requested blog category could not be found.
+                </p>
+
+            </section>
+
+        `;
+
+        return;
+
+    }
+
+
+    /*
+      Only show posts belonging to
+      the current category.
+    */
+
+    const categoryPosts =
+        posts.filter(function (post) {
+
+            return (
+                post.category_slug ===
+                categorySlug
+            );
+
+        });
+
+
+    /*
+      Render category header and post list.
+    */
+
+    categoryContainer.innerHTML = `
+
+        <section class="category-page">
+
+            <header class="category-header">
+
+                <span class="category-label">
+                    Blog Category
+                </span>
+
+                <h1>
+                    ${escapeHTML(
+                        category.name
+                    )}
+                </h1>
+
+                <p class="category-description">
+
+                    ${escapeHTML(
+                        category.description
+                    )}
+
+                </p>
+
+                <span class="category-post-count">
+
+                    ${categoryPosts.length}
+                    ${
+                        categoryPosts.length === 1
+                            ? "article"
+                            : "articles"
+                    }
+
+                </span>
+
+            </header>
+
+
+            <div class="category-post-list">
+
+                ${
+                    categoryPosts.length
+                        ? categoryPosts
+                            .map(function (post, index) {
+
+                                return `
+
+                                <article
+                                    class="blog-post-card"
+                                    data-category-post-index="${index}"
+                                >
+
+                                    <span class="blog-post-tag">
+
+                                        ${escapeHTML(
+                                            post.category
+                                        )}
+
+                                    </span>
+
+
+                                    <h2 class="blog-post-title">
+
+                                        <a
+                                            href="${post.url}"
+                                        >
+
+                                            ${escapeHTML(
+                                                post.title
+                                            )}
+
+                                        </a>
+
+                                    </h2>
+
+
+                                    <span class="blog-post-date">
+
+                                        ${formatDate(
+                                            post.date
+                                        )}
+
+                                    </span>
+
+
+                                    <p class="blog-post-description">
+
+                                        Loading...
+
+                                    </p>
+
+
+                                    <a
+                                        href="${post.url}"
+                                        class="blog-post-read-more"
+                                    >
+
+                                        Read more
+
+                                        <svg
+                                            width="14"
+                                            height="14"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            aria-hidden="true"
+                                        >
+
+                                            <path d="M5 12h14"/>
+
+                                            <path d="m13 6 6 6-6 6"/>
+
+                                        </svg>
+
+                                    </a>
+
+                                </article>
+
+                                `;
+
+                            })
+                            .join("")
+
+                        : `
+
+                            <p class="no-posts">
+
+                                No articles have been published
+                                in this category yet.
+
+                            </p>
+
+                        `
+
+                }
+
+            </div>
+
+        </section>
+
+    `;
+
+
+    /*
+      Load excerpts for category posts.
+    */
+
+    categoryPosts.forEach(function (post, index) {
+
+        getPostExcerpt(post.url)
+
+            .then(function (excerpt) {
+
+                const card =
+                    categoryContainer.querySelector(
+                        `[data-category-post-index="${index}"]`
+                    );
+
+
+                if (!card) {
+                    return;
+                }
+
+
+                const description =
+                    card.querySelector(
+                        ".blog-post-description"
+                    );
+
+
+                if (!description) {
+                    return;
+                }
+
+
+                description.textContent =
+                    excerpt;
+
+            });
+
+    });
+
+}
 
 
 /* ==================================================

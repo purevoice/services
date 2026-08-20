@@ -232,6 +232,136 @@ const categoryData = {
 
 
 /* ==================================================
+   CATEGORY HELPERS
+================================================== */
+
+/*
+  Find the fixed category definition using
+  the category name stored in the post data.
+*/
+
+function getCategoryByName(categoryName) {
+
+    if (!categoryName) {
+        return null;
+    }
+
+
+    const normalizedName =
+        String(categoryName)
+            .trim()
+            .toLowerCase();
+
+
+    const category =
+        Object.values(categoryData)
+            .find(function (item) {
+
+                return (
+                    item.name
+                        .trim()
+                        .toLowerCase() ===
+                    normalizedName
+                );
+
+            });
+
+
+    return category || null;
+
+}
+
+
+/*
+  Get the category slug for a post.
+
+  The generated post data may contain a slug,
+  but the system does not depend on it.
+
+  If the slug exists and matches a known
+  category, use it.
+
+  Otherwise resolve the slug from the
+  category name.
+*/
+
+function getPostCategorySlug(post) {
+
+    if (!post) {
+        return "";
+    }
+
+
+    if (
+        post.category_slug &&
+        categoryData[
+            String(post.category_slug).trim()
+        ]
+    ) {
+
+        return String(
+            post.category_slug
+        ).trim();
+
+    }
+
+
+    const category =
+        getCategoryByName(
+            post.category
+        );
+
+
+    if (category) {
+        return category.slug;
+    }
+
+
+    return "";
+
+}
+
+
+/*
+  Get the category name from the post.
+*/
+
+function getPostCategoryName(post) {
+
+    if (!post) {
+        return "";
+    }
+
+
+    if (post.category) {
+
+        return String(
+            post.category
+        ).trim();
+
+    }
+
+
+    const slug =
+        getPostCategorySlug(post);
+
+
+    if (
+        slug &&
+        categoryData[slug]
+    ) {
+
+        return categoryData[slug].name;
+
+    }
+
+
+    return "";
+
+}
+
+
+/* ==================================================
    LOAD POSTS DATA
 ================================================== */
 
@@ -311,7 +441,7 @@ fetch("/blog/posts-data.json")
                             <span class="blog-post-tag">
 
                                 ${escapeHTML(
-                                    post.category
+                                    getPostCategoryName(post)
                                 )}
 
                             </span>
@@ -527,15 +657,62 @@ fetch("/blog/posts-data.json")
                 )?.content || "";
 
 
+            const currentCategoryName =
+                document.querySelector(
+                    'meta[name="post-category"]'
+                )?.content || "";
+
+
             const relatedPosts =
                 posts
 
                     .filter(function (post) {
 
-                        return (
-                            post.title !== currentTitle &&
-                            post.category_slug ===
+                        if (
+                            post.title ===
+                            currentTitle
+                        ) {
+
+                            return false;
+
+                        }
+
+
+                        /*
+                          Prefer the category slug
+                          when available.
+
+                          Otherwise match using
+                          the category name.
+                        */
+
+                        const postSlug =
+                            getPostCategorySlug(
+                                post
+                            );
+
+
+                        if (
+                            currentCategorySlug &&
+                            postSlug
+                        ) {
+
+                            return (
+                                postSlug ===
                                 currentCategorySlug
+                            );
+
+                        }
+
+
+                        return (
+                            getPostCategoryName(
+                                post
+                            )
+                                .toLowerCase() ===
+                            currentCategoryName
+                                .trim()
+                                .toLowerCase()
                         );
 
                     })
@@ -568,7 +745,7 @@ fetch("/blog/posts-data.json")
                                 <span class="related-tag">
 
                                     ${escapeHTML(
-                                        post.category
+                                        getPostCategoryName(post)
                                     )}
 
                                 </span>
@@ -681,11 +858,11 @@ function renderCategories(posts) {
 
 
     /*
-      Count posts using category_slug.
+      Start every defined category at zero.
 
-      The fixed categoryData object is used
-      to guarantee that every defined category
-      appears in the sidebar.
+      This guarantees that all seven categories
+      have a stable URL and can appear in the
+      sidebar even before they have posts.
     */
 
     const categoryCounts = {};
@@ -699,25 +876,32 @@ function renderCategories(posts) {
         });
 
 
+    /*
+      Count posts by their category NAME.
+
+      This is the important fix.
+
+      The generated post data does not need
+      category_slug because the fixed
+      categoryData already knows the slug.
+    */
+
     posts.forEach(function (post) {
 
-        if (!post.category_slug) {
+        const category =
+            getCategoryByName(
+                post.category
+            );
+
+
+        if (!category) {
             return;
         }
 
 
-        if (
-            Object.prototype.hasOwnProperty.call(
-                categoryCounts,
-                post.category_slug
-            )
-        ) {
-
-            categoryCounts[
-                post.category_slug
-            ]++;
-
-        }
+        categoryCounts[
+            category.slug
+        ]++;
 
     });
 
@@ -732,7 +916,7 @@ function renderCategories(posts) {
                 <li class="category-item">
 
                     <a
-                        href="/blog/category/${encodeURIComponent(
+                        href="/blog/category/${escapeHTML(
                             category.slug
                         )}"
                     >
@@ -779,8 +963,8 @@ function renderCategoryPage(posts) {
 
 
     /*
-      If the category page HTML does not contain
-      this container, do nothing.
+      If this is not a category page,
+      stop here.
     */
 
     if (!categoryContainer) {
@@ -820,6 +1004,11 @@ function renderCategoryPage(posts) {
         );
 
 
+    /*
+      Look up the category using the
+      fixed categoryData object.
+    */
+
     const category =
         categoryData[categorySlug];
 
@@ -858,15 +1047,35 @@ function renderCategoryPage(posts) {
 
 
     /*
-      Match posts using the category slug.
+      IMPORTANT FIX
+
+      Match published posts using their
+      category NAME.
+
+      This means:
+
+      post.category
+      "SEO Fundamentals"
+
+      matches:
+
+      category.name
+      "SEO Fundamentals"
+
+      The generated JSON does not need
+      category_slug for this to work.
     */
 
     const categoryPosts =
         posts.filter(function (post) {
 
             return (
-                post.category_slug ===
-                categorySlug
+                getPostCategoryName(post)
+                    .trim()
+                    .toLowerCase() ===
+                category.name
+                    .trim()
+                    .toLowerCase()
             );
 
         });
@@ -921,7 +1130,6 @@ function renderCategoryPage(posts) {
 
                 ${
                     categoryPosts.length
-
                         ? categoryPosts
                             .map(function (post, index) {
 
@@ -935,7 +1143,7 @@ function renderCategoryPage(posts) {
                                     <span class="blog-post-tag">
 
                                         ${escapeHTML(
-                                            post.category
+                                            getPostCategoryName(post)
                                         )}
 
                                     </span>
@@ -1009,7 +1217,6 @@ function renderCategoryPage(posts) {
 
                             })
                             .join("")
-
                         : `
 
                             <p class="no-posts">
@@ -1020,7 +1227,6 @@ function renderCategoryPage(posts) {
                             </p>
 
                         `
-
                 }
 
             </div>
@@ -1079,6 +1285,11 @@ function renderCategoryPage(posts) {
 
 function getPostExcerpt(url) {
 
+    if (!url) {
+        return Promise.resolve("");
+    }
+
+
     return fetch(
         getHTMLPostURL(url)
     )
@@ -1110,6 +1321,11 @@ function getPostExcerpt(url) {
                 );
 
 
+            /*
+              Only select the first paragraph
+              inside .post-body.
+            */
+
             const firstParagraph =
                 document.querySelector(
                     ".post-body p"
@@ -1127,6 +1343,10 @@ function getPostExcerpt(url) {
                     .trim();
 
 
+            /*
+              Limit the excerpt to 180 characters.
+            */
+
             if (excerpt.length > 180) {
 
                 excerpt =
@@ -1135,6 +1355,10 @@ function getPostExcerpt(url) {
                         180
                     );
 
+
+                /*
+                  Don't cut a word in half.
+                */
 
                 const lastSpace =
                     excerpt.lastIndexOf(" ");
@@ -1185,6 +1409,16 @@ function getHTMLPostURL(url) {
     }
 
 
+    /*
+      Public URL:
+
+      /blog/post-name
+
+      Actual file:
+
+      /blog/post-name.html
+    */
+
     if (url.endsWith(".html")) {
         return url;
     }
@@ -1196,7 +1430,7 @@ function getHTMLPostURL(url) {
 
 
 /* ==================================================
-   FORMAT DATE
+   HELPERS
 ================================================== */
 
 function formatDate(dateString) {
@@ -1226,10 +1460,6 @@ function formatDate(dateString) {
 
 }
 
-
-/* ==================================================
-   ESCAPE HTML
-================================================== */
 
 function escapeHTML(value) {
 

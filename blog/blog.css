@@ -388,6 +388,20 @@ header {
     color: #9a9689;
 }
 
+.category-post-list {
+    display: grid;
+    gap: 20px;
+    position: static;
+}
+
+.category-post-list .blog-post-card {
+    position: relative;
+}
+
+.category-post-list .blog-post-description {
+    position: static;
+}
+
 .category-list {
     list-style: none;
 }

@@ -1,3 +1,3 @@
 [build]
-  command = "node blog/generate-posts.js"
+  command = "node blog/generate-posts.js && node sitemap-generator.js"
   publish = "."

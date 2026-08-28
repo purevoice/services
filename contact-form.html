@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact Form</title>
+
+<style>
+
+:root {
+  --navy-900: #0B1A30;
+  --navy-950: #050D1A;
+  --cobalt-600: #2563EB;
+  --cobalt-700: #1D4ED8;
+  --cobalt-400: #60A5FA;
+  --sky-400: #38BDF8;
+
+  --slate-50: #F8FAFC;
+  --slate-100: #F1F5F9;
+  --slate-200: #E2E8F0;
+  --slate-400: #94A3B8;
+  --slate-500: #64748B;
+  --slate-600: #475569;
+  --slate-800: #1E293B;
+
+  --rose-50: #FFF1F2;
+  --rose-200: #FECDD3;
+  --rose-500: #F43F5E;
+  --rose-700: #BE123C;
+
+  --emerald-500: #10B981;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+  color: var(--slate-800);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+.contact-wrap {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.contact-card {
+  background: #fff;
+  border: 1px solid var(--slate-200);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 15px 40px rgba(11, 26, 48, .08);
+}
+
+.contact-card h2 {
+  margin: 0 0 8px;
+  color: var(--navy-900);
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.contact-card > p {
+  margin: 0 0 28px;
+  color: var(--slate-500);
+  font-size: 15px;
+}
+
+.form-field {
+  margin-bottom: 18px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--navy-900);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  border: 1px solid var(--slate-200);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--slate-800);
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.form-field input {
+  height: 52px;
+  padding: 0 16px;
+}
+
+.form-field textarea {
+  min-height: 130px;
+  padding: 14px 16px;
+  resize: vertical;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--cobalt-400);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, .15);
+}
+
+.form-field.invalid input {
+  border-color: var(--rose-500);
+  background: var(--rose-50);
+}
+
+.form-field.invalid textarea {
+  border-color: var(--rose-500);
+  background: var(--rose-50);
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--rose-50);
+  border: 1px solid var(--rose-200);
+  color: var(--rose-700);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.form-error[hidden] {
+  display: none;
+}
+
+.submit-btn {
+  width: 100%;
+  min-height: 54px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--cobalt-600);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, .3);
+  transition: all .2s ease;
+}
+
+.submit-btn:hover {
+  background: var(--cobalt-700);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, .45);
+}
+
+.submit-btn:disabled {
+  opacity: .7;
+  cursor: wait;
+}
+
+.plan-alert {
+  margin: 0 0 18px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #1D4ED8;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.plan-alert[hidden] {
+  display: none;
+}
+
+/* Thank-you overlay */
+
+.thank-you-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 13, 26, .7);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.thank-you-overlay.show {
+  display: flex;
+}
+
+.thank-you-box {
+  background: linear-gradient(
+    165deg,
+    var(--navy-900),
+    var(--navy-950)
+  );
+
+  border-radius: 24px;
+  max-width: 400px;
+  width: 100%;
+  padding: 40px 32px 32px;
+
+  text-align: center;
+
+  box-shadow: 0 30px 70px rgba(0,0,0,.45);
+}
+
+.thank-you-icon {
+  width: 60px;
+  height: 60px;
+
+  border-radius: 18px;
+
+  background: rgba(59,130,246,.15);
+  border: 1px solid rgba(96,165,250,.3);
+
+  color: var(--cobalt-400);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 20px;
+
+  font-size: 28px;
+}
+
+.thank-you-box h3 {
+  font-size: 21px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 10px;
+}
+
+.thank-you-box p {
+  color: rgba(255,255,255,.75);
+  font-size: 14.5px;
+  margin: 0 0 26px;
+  line-height: 1.55;
+}
+
+.done-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: var(--cobalt-600);
+  color: #fff;
+  padding: 15px;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+}
+
+@media (max-width: 600px) {
+
+  .contact-wrap {
+    padding: 5px;
+  }
+
+  .contact-card {
+    padding: 24px 20px;
+    border-radius: 18px;
+  }
+
+  .contact-card h2 {
+    font-size: 24px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="contact-wrap">
+
+  <div class="contact-card">
+
+    <h2>Get a Free Google Ads Consultation</h2>
+
+    <p>
+      Tell us a little about your business and we'll get back to you shortly.
+    </p>
+
+    <form id="leadForm">
+
+      <!-- Honeypot spam field -->
+      <div class="hp-field">
+        <label for="website">Website</label>
+        <input
+          type="text"
+          id="website"
+          name="website"
+          autocomplete="off"
+          tabindex="-1"
+        >
+      </div>
+
+      <div class="form-field" id="field-name">
+
+        <label for="name">
+          Full Name
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your full name"
+          autocomplete="name"
+        >
+
+      </div>
+
+
+      <div class="form-field" id="field-whatsapp">
+
+        <label for="whatsapp">
+          WhatsApp Number
+        </label>
+
+        <input
+          type="tel"
+          id="whatsapp"
+          name="whatsapp"
+          placeholder="e.g. 08012345678"
+          autocomplete="tel"
+        >
+
+      </div>
+
+
+      <div class="form-field" id="field-email">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+        >
+
+      </div>
+
+
+      <div class="form-field">
+
+        <label for="message">
+          Message
+        </label>
+
+        <textarea
+          id="message"
+          name="message"
+          placeholder="Tell us about your business and what you need help with..."
+        ></textarea>
+
+      </div>
+
+
+      <input
+        type="hidden"
+        id="selectedPlan"
+        name="plan"
+        value=""
+      >
+
+
+      <div
+        class="plan-alert"
+        id="planAlert"
+        hidden
+      >
+        <span id="planAlertText"></span>
+      </div>
+
+
+      <div
+        class="form-error"
+        id="formError"
+        hidden
+      >
+        <span>!</span>
+        <span id="formErrorText"></span>
+      </div>
+
+
+      <button
+        type="submit"
+        class="submit-btn"
+        id="submitBtn"
+      >
+        Send My Enquiry
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- THANK YOU -->
+
+<div
+  class="thank-you-overlay"
+  id="thankYouOverlay"
+>
+
+  <div class="thank-you-box">
+
+    <div class="thank-you-icon">
+      ✓
+    </div>
+
+    <h3>
+      Thanks For Contacting Us
+    </h3>
+
+    <p>
+      Your request has been received.
+      A representative will get in touch with you soon.
+    </p>
+
+    <button
+      type="button"
+      class="done-btn"
+      id="thankYouClose"
+    >
+      Done
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+(function() {
+
+  /*
+   * IMPORTANT:
+   * Replace this with your Google Apps Script
+   * Web App URL.
+   */
+
+  var SCRIPT_URL =
+    'https://script.google.com/macros/s/AKfycbxSkluriPEcnKsRF4KUH69E_Q4ATByUjSRxCXntoYiv4f08m5eM8S-9rHWc2H6hlKi6/exec';
+
+
+  var form =
+    document.getElementById('leadForm');
+
+  var formError =
+    document.getElementById('formError');
+
+  var formErrorText =
+    document.getElementById('formErrorText');
+
+  var submitBtn =
+    document.getElementById('submitBtn');
+
+  var thankYouOverlay =
+    document.getElementById('thankYouOverlay');
+
+  var thankYouClose =
+    document.getElementById('thankYouClose');
+
+
+  function validEmail(v) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      .test(v.trim());
+
+  }
+
+
+  function validPhone(v) {
+
+    var d =
+      v.replace(/\D/g, '');
+
+    return d.length >= 10 &&
+           d.length <= 14;
+
+  }
+
+
+  function showError(message) {
+
+    formErrorText.textContent =
+      message;
+
+    formError.hidden = false;
+
+  }
+
+
+  function clearErrors() {
+
+    formError.hidden = true;
+
+    document
+      .querySelectorAll('.form-field')
+      .forEach(function(field) {
+
+        field.classList.remove('invalid');
+
+      });
+
+  }
+
+
+  form.addEventListener(
+    'submit',
+    function(e) {
+
+      e.preventDefault();
+
+      clearErrors();
+
+
+      var name =
+        document.getElementById('name')
+        .value
+        .trim();
+
+
+      var whatsapp =
+        document.getElementById('whatsapp')
+        .value
+        .trim();
+
+
+      var email =
+        document.getElementById('email')
+        .value
+        .trim();
+
+
+      var message =
+        document.getElementById('message')
+        .value
+        .trim();
+
+
+      var plan =
+        document.getElementById('selectedPlan')
+        .value;
+
+
+      var website =
+        document.getElementById('website')
+        .value;
+
+
+      var nameField =
+        document.getElementById('field-name');
+
+
+      var whatsappField =
+        document.getElementById(
+          'field-whatsapp'
+        );
+
+
+      var emailField =
+        document.getElementById(
+          'field-email'
+        );
+
+
+      if (!name) {
+
+        nameField.classList.add('invalid');
+
+        showError(
+          'Please enter your full name.'
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !whatsapp ||
+        !validPhone(whatsapp)
+      ) {
+
+        whatsappField.classList.add(
+          'invalid'
+        );
+
+        showError(
+          'Please enter a valid WhatsApp number.'
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !email ||
+        !validEmail(email)
+      ) {
+
+        emailField.classList.add(
+          'invalid'
+        );
+
+        showError(
+          'Please enter a valid email address.'
+        );
+
+        return;
+
+      }
+
+
+      submitBtn.disabled = true;
+
+      submitBtn.textContent =
+        'Sending...';
+
+
+      var data =
+        new URLSearchParams();
+
+
+      data.append(
+        'name',
+        name
+      );
+
+
+      data.append(
+        'whatsapp',
+        whatsapp
+      );
+
+
+      data.append(
+        'email',
+        email
+      );
+
+
+      data.append(
+        'message',
+        message ||
+        'I would like a free consultation.'
+      );
+
+
+      data.append(
+        'plan',
+        plan
+      );
+
+
+      data.append(
+        'website',
+        website
+      );
+
+
+      fetch(
+        SCRIPT_URL,
+        {
+          method: 'POST',
+          body: data
+        }
+      )
+
+      .then(function(response) {
+
+        return response.json();
+
+      })
+
+      .then(function(result) {
+
+        submitBtn.disabled = false;
+
+        submitBtn.textContent =
+          'Send My Enquiry';
+
+
+        if (
+          result &&
+          result.success
+        ) {
+
+          form.reset();
+
+          document
+            .getElementById(
+              'selectedPlan'
+            )
+            .value = '';
+
+
+          document
+            .getElementById(
+              'planAlert'
+            )
+            .hidden = true;
+
+
+          thankYouOverlay
+            .classList
+            .add('show');
+
+        } else {
+
+          showError(
+            result.message ||
+            'Something went wrong. Please try again.'
+          );
+
+        }
+
+      })
+
+      .catch(function(error) {
+
+        console.error(error);
+
+        submitBtn.disabled = false;
+
+        submitBtn.textContent =
+          'Send My Enquiry';
+
+
+        showError(
+          'Network error. Please try again.'
+        );
+
+      });
+
+    }
+  );
+
+
+  thankYouClose.addEventListener(
+    'click',
+    function() {
+
+      thankYouOverlay
+        .classList
+        .remove('show');
+
+    }
+  );
+
+
+  thankYouOverlay.addEventListener(
+    'click',
+    function(e) {
+
+      if (
+        e.target ===
+        thankYouOverlay
+      ) {
+
+        thankYouOverlay
+          .classList
+          .remove('show');
+
+      }
+
+    }
+  );
+
+
+})();
+
+</script>
+
+</body>
+</html>

@@ -215,7 +215,7 @@ h2.sec-title{font-size:clamp(2rem,3.7vw,3.15rem);max-width:20ch}
 .ticker-set i{color:var(--acid);font-style:normal}
 
 /* ---------- why ---------- */
-.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(44px,6vw,90px);align-items:start}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(44px,6vw,90px);align-items:center}
 .why-sticky{position:sticky;top:110px}
 .why-copy p{color:var(--ink-dim);margin-top:18px;max-width:52ch}
 .why-copy p strong{color:var(--ink)}
@@ -233,7 +233,7 @@ h2.sec-title{font-size:clamp(2rem,3.7vw,3.15rem);max-width:20ch}
 .band-marquee{border-bottom:1.5px solid var(--ink);overflow:hidden;padding:12px 0}
 .band-track{display:flex;width:max-content;animation:tick 22s linear infinite}
 .band-track span{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;padding:0 22px;white-space:nowrap}
-.band-inner{padding:clamp(64px,7vw,96px) 0;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+.band-inner{padding-top:clamp(64px,7vw,96px);padding-bottom:clamp(64px,7vw,96px);display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
 .band h2{font-size:clamp(1.9rem,3.4vw,2.9rem)}
 .band p{margin-top:16px;max-width:52ch;font-weight:500}
 .band-cta{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
@@ -247,8 +247,9 @@ h2.sec-title{font-size:clamp(2rem,3.7vw,3.15rem);max-width:20ch}
 @keyframes kenburns{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.1) translate(2%, -2%)}}
 .kb-tag{position:absolute;left:16px;bottom:16px;background:rgba(10,14,21,.82);backdrop-filter:blur(6px);border:1px solid var(--line2);color:var(--txt);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:6px}
 .eeat{margin-top:30px;display:grid;gap:0;border-top:1px solid var(--line)}
-.eeat-row{display:grid;grid-template-columns:170px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}
-.eeat-row b{font-family:var(--font-display);font-weight:700;color:var(--acid);font-size:.98rem}
+.eeat-row{display:grid;grid-template-columns:48px 1fr;gap:18px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+.eeat-row .svc-ico{width:44px;height:44px}
+.eeat-row b{display:block;font-family:var(--font-display);font-weight:700;color:var(--acid);font-size:.98rem;margin-bottom:2px}
 .eeat-row span{color:var(--dim);font-size:.94rem}
 .about-stats{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line2);border-radius:14px;margin-top:clamp(48px,6vw,72px);overflow:hidden;background:var(--ink2)}
 .astat{padding:26px 20px;border-right:1px solid var(--line);text-align:center}
@@ -416,6 +417,8 @@ footer{background:#070A10;border-top:1px solid var(--line)}
   .ind-tags{flex-direction:row;flex-wrap:wrap;min-width:0}
   .band-inner{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
+  .svc-head{flex-direction:column;align-items:flex-start}
+  .svc-head .sec-intro{max-width:none}
 }
 @media(max-width:760px){
   .hero{padding-top:130px}
@@ -432,7 +435,6 @@ footer{background:#070A10;border-top:1px solid var(--line)}
   .astat:nth-child(even){border-right:none}
   .astat:first-child,.astat:nth-child(2){border-top:none!important}
   .mkt-facts{grid-template-columns:1fr}
-  .eeat-row{grid-template-columns:1fr;gap:4px}
   .foot-grid{grid-template-columns:1fr}
   .gain{grid-template-columns:44px 1fr}
   .gain .g-idx{display:none}
@@ -479,7 +481,6 @@ footer{background:#070A10;border-top:1px solid var(--line)}
 <div class="m-menu" id="mMenu">
   <a href="#why">Why SEO</a><a href="#services">Services</a><a href="#results">Results</a>
   <a href="#industries">Industries</a><a href="#about">About</a><a href="#faq">FAQ</a>
-  <a href="#contact">✶ Get Free SEO Audit</a>
 </div>
 
 <!-- ============ HERO ============ -->
@@ -529,11 +530,6 @@ footer{background:#070A10;border-top:1px solid var(--line)}
       </div>
     </div>
 
-    <div class="hero-stats rv" style="--d:.2s">
-      <div class="hstat"><span class="num" data-count="312" data-suffix="%">0%</span><span class="cap">Avg. Traffic Increase</span></div>
-      <div class="hstat"><span class="num" data-count="200" data-suffix="+">0+</span><span class="cap">Chicago Clients</span></div>
-      <div class="hstat"><span class="num" data-count="10" data-suffix="+">0+</span><span class="cap">Years Experience</span></div>
-    </div>
   </div>
 </section>
 
@@ -558,7 +554,6 @@ footer{background:#070A10;border-top:1px solid var(--line)}
       <div class="why-copy">
         <p class="rv" style="--d:.2s">Most buyers in Chicago start their journey on Google. If your business does not appear on the first page, your competitors capture the traffic, the calls, and the revenue that should be yours. Search engine optimization turns that around by placing your brand in front of people at the exact moment they search for what you sell.</p>
         <p class="rv" style="--d:.3s">Unlike paid ads that stop the second you stop paying, SEO builds an asset that compounds. Every optimized page, every earned link, and every positive review makes your presence stronger. A dedicated Chicago SEO company builds that system for you, then keeps refining it as search evolves.</p>
-        <p class="rv" style="--d:.4s"><strong>Here is what businesses stand to gain when they invest in serious SEO:</strong></p>
       </div>
     </div>
     <div class="gains">
@@ -566,6 +561,7 @@ footer{background:#070A10;border-top:1px solid var(--line)}
       <div class="gain rv" style="--d:.1s"><span class="g-idx">02</span><span class="g-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></span><div><h4>Higher-intent leads</h4><p>from people actively searching for your services</p></div></div>
       <div class="gain rv" style="--d:.2s"><span class="g-idx">03</span><span class="g-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 5H4a4 4 0 0 0 4 5M16 5h4a4 4 0 0 1-4 5M12 13v4M8 21h8"/></svg></span><div><h4>Brand trust and authority</h4><p>that comes from ranking at the top of Google</p></div></div>
       <div class="gain rv" style="--d:.3s"><span class="g-idx">04</span><span class="g-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 6v12"/><path d="M15.5 8.5c-1-1-2.3-1.5-3.5-1.5-2 0-3.5 1-3.5 2.5 0 3.5 7 2.5 7 6 0 1.5-1.5 2.5-3.5 2.5-1.5 0-3-.7-3.8-1.8"/></svg></span><div><h4>Compounding ROI</h4><p>as rankings, links, and content build on each other</p></div></div>
+      <div class="gain rv" style="--d:.4s"><span class="g-idx">05</span><span class="g-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/></svg></span><div><h4>Visibility in AI search</h4><p>as buyers discover businesses through ChatGPT, AI Overviews, and Perplexity</p></div></div>
     </div>
   </div>
 </section>
@@ -604,10 +600,10 @@ footer{background:#070A10;border-top:1px solid var(--line)}
         <p class="sec-intro rv" style="--d:.2s">WebSurf SEO is a premier <strong style="color:var(--txt)">Chicago SEO company</strong> built on transparency, data-driven strategy, and measurable results. Since 2015 we have helped more than 200 businesses across the greater Chicagoland area reach first-page rankings, grow organic traffic, and generate qualified leads through ethical search engine optimization.</p>
         <p class="sec-intro rv" style="--d:.28s">Our certified specialists combine deep knowledge of Google's ranking algorithms, local search optimization, technical SEO, and AI-powered search to build strategies that drive sustainable growth. No black-hat tactics and no overnight promises. We build long-term authority that compounds over time.</p>
         <div class="eeat rv" style="--d:.34s">
-          <div class="eeat-row"><b>Experience</b><span>10+ years optimizing websites for competitive Chicago markets across Cook County and DuPage County</span></div>
-          <div class="eeat-row"><b>Expertise</b><span>Google-certified team with advanced technical and content specialization</span></div>
-          <div class="eeat-row"><b>Authoritativeness</b><span>Published contributors to industry-leading SEO publications</span></div>
-          <div class="eeat-row"><b>Trustworthiness</b><span>95% client retention rate with fully transparent reporting</span></div>
+          <div class="eeat-row"><span class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><div><b>10+ years in the Chicago market</b><span>Optimizing websites across Cook County and DuPage County since 2015</span></div></div>
+          <div class="eeat-row"><span class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>Google-certified specialists</b><span>Advanced technical and content specialization across our team</span></div></div>
+          <div class="eeat-row"><span class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg></span><div><b>Published industry voices</b><span>Our strategists contribute to leading SEO publications</span></div></div>
+          <div class="eeat-row"><span class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></span><div><b>95% client retention</b><span>Fully transparent reporting keeps clients with us long-term</span></div></div>
         </div>
       </div>
     </div>
@@ -648,7 +644,7 @@ footer{background:#070A10;border-top:1px solid var(--line)}
   <div class="container market-grid">
     <div class="market-sticky">
       <p class="eyebrow rv"><span class="scramble" data-text="THE CHICAGO MARKET">THE CHICAGO MARKET</span><span class="idx">/ 04</span></p>
-      <h2 class="sec-title rv" style="--d:.1s">Chicago Is a Tough Market to Rank In. Our Chicago SEO Company Knows How to Win.</h2>
+      <h2 class="sec-title rv" style="--d:.1s">Our SEO Company is Built for the Chicago Market</h2>
       <div class="why-copy">
         <p class="rv" style="--d:.2s">Chicago is one of the most competitive search markets in the country. From Loop law firms to Wicker Park restaurants, thousands of businesses are fighting for the same first-page spots, and the bar for rankings keeps rising every year. Generic tactics do not survive here.</p>
         <p class="rv" style="--d:.3s">Winning takes local expertise, technical precision, and content that earns real authority. Our team studies Chicago search behavior block by block, from neighborhood "near me" queries to citywide keywords, so your business shows up exactly where it matters.</p>

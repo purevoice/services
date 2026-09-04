@@ -94,14 +94,14 @@ section{position:relative;scroll-margin-top:92px}
 .progress span{display:block;height:100%;background:var(--acid);transform-origin:0 50%;transform:scaleX(0)}
 
 /* ---------- header ---------- */
-header{position:fixed;top:0;left:0;right:0;z-index:70;transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
+header{position:fixed;top:0;left:0;right:0;z-index:70;transition:background .35s,border-color .35s;background:rgba(10,14,21,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 header.scrolled{background:rgba(10,14,21,.86);backdrop-filter:blur(14px);border-color:var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:900;font-size:1.28rem;letter-spacing:-.02em}
 .logo .mark{width:34px;height:34px;background:var(--acid);color:var(--ink);display:grid;place-items:center;font-size:1.05rem;border-radius:6px;transition:transform .4s var(--ease)}
 .logo:hover .mark{transform:rotate(90deg)}
 .logo em{font-style:normal;color:var(--acid)}
-.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links{display:flex;gap:30px;align-items:center;margin-left:auto}
 .nav-links a{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);position:relative;padding:6px 0;transition:color .3s}
 .nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--acid);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
 .nav-links a:hover{color:var(--txt)}
@@ -154,7 +154,7 @@ h2.sec-title{font-size:clamp(2rem,3.7vw,3.15rem);max-width:20ch}
 .rv.in{opacity:1;transform:none}
 
 /* ---------- hero ---------- */
-.hero{padding:168px 0 0;background:
+.hero{padding:132px 0 0;background:
   radial-gradient(900px 480px at 82% -10%,rgba(201,242,78,.09),transparent 60%),
   linear-gradient(var(--line) 1px,transparent 1px),
   linear-gradient(90deg,var(--line) 1px,transparent 1px);
@@ -237,8 +237,6 @@ h2.sec-title{font-size:clamp(2rem,3.7vw,3.15rem);max-width:20ch}
 .band h2{font-size:clamp(1.9rem,3.4vw,2.9rem)}
 .band p{margin-top:16px;max-width:52ch;font-weight:500}
 .band-cta{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
-.band-phone{font-family:var(--font-mono);font-size:.85rem;margin-top:6px}
-.band-phone a{border-bottom:1.5px solid var(--ink);font-weight:600}
 
 /* ---------- about ---------- */
 .about-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(44px,6vw,84px);align-items:center}
@@ -382,21 +380,19 @@ h2.sec-title{font-size:clamp(2rem,3.7vw,3.15rem);max-width:20ch}
 .final-bg{position:absolute;inset:0}
 .final-bg img{width:100%;height:100%;object-fit:cover;animation:kenburns 22s ease-in-out infinite alternate}
 .final-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,21,.88),rgba(10,14,21,.72) 50%,rgba(10,14,21,.92))}
-.final-inner{position:relative;z-index:2;padding:clamp(110px,12vw,170px) 0}
+.final-inner{position:relative;z-index:2;padding-top:clamp(110px,12vw,170px);padding-bottom:clamp(110px,12vw,170px)}
 .final h2{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:900;letter-spacing:-.02em}
 .final h2 .turn{color:var(--acid)}
 .final p{color:var(--dim);max-width:56ch;margin:26px 0 36px;font-size:1.05rem}
-.final .phone-line{margin-top:26px;font-family:var(--font-mono);font-size:.85rem;color:var(--dim)}
-.final .phone-line a{color:var(--acid);border-bottom:1px solid rgba(201,242,78,.4);padding-bottom:2px}
 
 /* ---------- footer ---------- */
 footer{background:#070A10;border-top:1px solid var(--line)}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:clamp(32px,4vw,60px);padding:clamp(56px,6vw,80px) 0}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:clamp(32px,4vw,60px);padding-top:clamp(56px,6vw,80px);padding-bottom:clamp(56px,6vw,80px)}
 .foot-brand p{color:var(--dim);font-size:.92rem;margin-top:18px;max-width:36ch}
 .foot-col h5{font-family:var(--font-mono);font-weight:500;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim2);margin-bottom:20px}
 .foot-col a{display:block;color:var(--dim);font-size:.92rem;padding:5px 0;transition:color .3s,transform .3s var(--ease)}
 .foot-col a:hover{color:var(--acid);transform:translateX(4px)}
-.foot-bottom{border-top:1px solid var(--line);padding:24px 0;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--dim2)}
+.foot-bottom{border-top:1px solid var(--line);padding-top:24px;padding-bottom:24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--dim2)}
 .foot-bottom b{color:var(--acid);font-weight:500}
 
 /* ---------- responsive ---------- */
@@ -421,7 +417,7 @@ footer{background:#070A10;border-top:1px solid var(--line)}
   .svc-head .sec-intro{max-width:none}
 }
 @media(max-width:760px){
-  .hero{padding-top:130px}
+  .hero{padding-top:100px}
   .hero-stats{grid-template-columns:1fr}
   .hstat{border-right:none;border-bottom:1px solid var(--line)}
   .hstat:last-child{border-bottom:none}
@@ -481,6 +477,7 @@ footer{background:#070A10;border-top:1px solid var(--line)}
 <div class="m-menu" id="mMenu">
   <a href="#why">Why SEO</a><a href="#services">Services</a><a href="#results">Results</a>
   <a href="#industries">Industries</a><a href="#about">About</a><a href="#faq">FAQ</a>
+  <a href="https://chicagoseocompany.netlify.app/blog/">Blog</a>
 </div>
 
 <!-- ============ HERO ============ -->
@@ -488,7 +485,6 @@ footer{background:#070A10;border-top:1px solid var(--line)}
   <div class="container">
     <div class="hero-grid">
       <div>
-        <p class="eyebrow rv in"><span class="scramble" data-text="CHICAGO SEO COMPANY — EST. 2015">CHICAGO SEO COMPANY — EST. 2015</span></p>
         <h1 class="hero-title">
           <span class="lm"><span class="lm-in" style="--d:.1s">Your Trusted Chicago</span></span>
           <span class="lm"><span class="lm-in" style="--d:.22s">SEO Company Driving</span></span>
@@ -581,7 +577,6 @@ footer{background:#070A10;border-top:1px solid var(--line)}
     <div class="band-cta rv" style="--d:.15s">
       <a class="btn btn-ink" href="#contact">Claim Your Free SEO Audit <span class="arr">→</span></a>
       <a class="btn btn-ghost-ink" href="#services">Explore Services</a>
-      <p class="band-phone">Or call us directly: <a href="tel:3125550199">(312) 555-0199</a></p>
     </div>
   </div>
 </section>
@@ -644,7 +639,7 @@ footer{background:#070A10;border-top:1px solid var(--line)}
   <div class="container market-grid">
     <div class="market-sticky">
       <p class="eyebrow rv"><span class="scramble" data-text="THE CHICAGO MARKET">THE CHICAGO MARKET</span><span class="idx">/ 04</span></p>
-      <h2 class="sec-title rv" style="--d:.1s">Our SEO Company is Built for the Chicago Market</h2>
+      <h2 class="sec-title rv" style="--d:.1s">Our SEO Strategies are Built for the Chicago Market</h2>
       <div class="why-copy">
         <p class="rv" style="--d:.2s">Chicago is one of the most competitive search markets in the country. From Loop law firms to Wicker Park restaurants, thousands of businesses are fighting for the same first-page spots, and the bar for rankings keeps rising every year. Generic tactics do not survive here.</p>
         <p class="rv" style="--d:.3s">Winning takes local expertise, technical precision, and content that earns real authority. Our team studies Chicago search behavior block by block, from neighborhood "near me" queries to citywide keywords, so your business shows up exactly where it matters.</p>
@@ -815,7 +810,7 @@ footer{background:#070A10;border-top:1px solid var(--line)}
       <h2 class="sec-title rv" style="--d:.1s">Chicago SEO Company Questions, Answered</h2>
       <p class="sec-intro rv" style="--d:.2s">Everything you need to know about working with a Chicago SEO company and winning search visibility in this market.</p>
       <div class="faq-call rv" style="--d:.3s">
-        <p>Still have questions?<br>Call us: <a href="tel:3125550199">(312) 555-0199</a></p>
+        <p>Still have questions?<br><a href="#contact">Get in touch with our team</a></p>
       </div>
     </div>
     <div>
@@ -837,10 +832,9 @@ footer{background:#070A10;border-top:1px solid var(--line)}
     <h2 class="rv" style="--d:.1s">Your Competitors Are Ranking.<br><span class="turn">It's Your Turn.</span></h2>
     <p class="rv" style="--d:.2s">Talk to our Chicago SEO company today and get a free audit, a custom strategy, and a clear picture of what first-page rankings are worth to your business.</p>
     <div class="hero-btns rv" style="--d:.3s">
-      <a class="btn btn-acid" href="tel:3125550199">Schedule Free Strategy Call <span class="arr">→</span></a>
+      <a class="btn btn-acid" href="mailto:hello@websurfseo.com">Schedule Free Strategy Call <span class="arr">→</span></a>
       <a class="btn btn-ghost" href="#faq">Read FAQs First</a>
     </div>
-    <p class="phone-line rv" style="--d:.4s">Or call us directly: <a href="tel:3125550199">(312) 555-0199</a></p>
   </div>
 </section>
 
@@ -861,7 +855,6 @@ footer{background:#070A10;border-top:1px solid var(--line)}
     </div>
     <div class="foot-col">
       <h5>Contact</h5>
-      <a href="tel:3125550199">(312) 555-0199</a>
       <a href="#contact">Free SEO Audit</a>
       <a href="#areas">Chicago, Illinois</a>
       <a href="#areas">Cook · DuPage · Lake · Kane</a>
